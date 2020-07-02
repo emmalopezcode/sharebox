@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "759954819330",
+    "firebase_url": "https://sharebox-4687d.firebaseio.com",
+    "project_id": "sharebox-4687d",
+    "storage_bucket": "sharebox-4687d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:759954819330:android:51b1d23bdf758fd1155a1b",
+        "android_client_info": {
+          "package_name": "com.example.share_box"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "759954819330-m92jtqg7lj5u3q83eoh984g031uvmthj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_l2ti6xUtV4zOTc2RUm8a6D5JLrfM2z8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "759954819330-m92jtqg7lj5u3q83eoh984g031uvmthj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

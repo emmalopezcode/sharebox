@@ -1,0 +1,12 @@
+  Future<List<dynamic>> getFavorites() async {
+    List<dynamic> result = [];
+
+    db
+        .collection('sharebox_db')
+        .where('inWishlist', isEqualTo: true)
+        .snapshots()
+        .listen((data) => data.documents.forEach((doc) {
+              result.add(doc);
+            }));
+    return result;
+  }
