@@ -37,7 +37,7 @@ class WishListTile extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       SlimButton(
-                          text: 'pick', color: pinkPop, action: () {}),
+                          text: 'pick up', color: pinkPop, action: () {}),
                       SlimButton(
                         text: 'remove from wishlist',
                         color: pinkPop,
