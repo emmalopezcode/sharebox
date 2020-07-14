@@ -55,6 +55,12 @@ class ShareBoxItem {
     );
   }
 
+  // static DecorationImage decorationImageFromBase64(String base64String){
+  //   return DecorationImage.memory(
+  //     base64Decode(base64String),
+  //     fit:BoxFit.fill
+  //   );
+  // }
 
   equals(ShareBoxItem other) {
     if (this.description == other.description &&

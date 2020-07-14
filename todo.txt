@@ -4,7 +4,9 @@ refactor the shit out of upload.dart
 clothing and house filters
 clothing filter animation
     -size
-    
+redesign the wishlist tile
+wishlist two columns, organize them by odd and even in the list?
+
 put the size if its clothing into the upload section
 
 search [and theres a lot: algolia, a few ui panels]

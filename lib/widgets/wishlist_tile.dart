@@ -11,7 +11,6 @@ class WishListTile extends StatelessWidget {
   final Function delete;
   WishListTile({this.item, this.delete});
 
-  
   createItemDialog(BuildContext context) {
     return showDialog(
         context: context,
@@ -41,9 +40,7 @@ class WishListTile extends StatelessWidget {
                       SlimButton(
                         text: 'remove from wishlist',
                         color: pinkPop,
-                        action: ()  {
-                          
-                        },
+                        action: () {},
                       ),
                       SlimButton(text: 'X', color: Colors.red),
                     ],
@@ -58,64 +55,51 @@ class WishListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
+    Size size = MediaQuery.of(context).size;
     return Center(
       child: GestureDetector(
         onTap: () {
           createItemDialog(context);
         },
-        child: Card(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  height: 110,
-                  width: 110,
-                  child: ShareBoxItem.imageFromBase64(item.imageBase64),
+        child: Stack(
+          children: <Widget>[
+            Column(
+              children: <Widget>[
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(15),
+                  child: Container(
+                    width: size.width * .45,
+                    height: size.width * .45,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                      image: MemoryImage(base64.decode(item.imageBase64)),
+                    )),
+                  ),
                 ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width *.49,
-                child: Column(
-                  children: <Widget>[
-                    Text(
-                      '${item.title}',
-                      style: TextStyle(
-                        fontSize: 20.0,
-                      ),
-                    ),
-                    SizedBox(height: 10.0),
-                    SizedBox(height: 5.0),
-                    Text(
-                      '${item.house}',
-                      style: TextStyle(color: Colors.grey[500]),
-                    ),
-                  ],
+                SizedBox(
+                  height: 10,
+                )
+              ],
+            ),
+            Column(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
+                  child: Text(
+                    '${item.title}',
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
-              ),
-              Column(
-                //mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: <Widget>[
-                  Container(
-                    child: IconButton(
-                      padding: EdgeInsets.symmetric(vertical:0, horizontal:0),
-                      onPressed: delete,
-                      icon: Icon(Icons.delete_forever, color: Colors.red), 
-                      ),
-                  )
-                ],
-              ),
-            ],
+                Text('${item.category}', style: TextStyle(color: Colors.white)),
+                Text('${item.description}', style: TextStyle(color: Colors.white)),
+                Text('${item.house}', style: TextStyle(color: Colors.white)),
+                IconButton(icon: Icon(Icons.delete_sweep),onPressed: delete,color: pinkPop,),
+              ],
 
-          ),
+            )
+          ],
         ),
       ),
     );
   }
 }
-
-

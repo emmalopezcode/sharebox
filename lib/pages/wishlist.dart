@@ -15,6 +15,8 @@ class Wishlist extends StatefulWidget {
 
 class _WishlistState extends State<Wishlist> {
   List<dynamic> currentEntries = [];
+  List<dynamic> leftEntries = [];
+  List<dynamic> rightEntries = [];
   Firestore db = Firestore.instance;
 
   initState() {
@@ -30,6 +32,13 @@ class _WishlistState extends State<Wishlist> {
             currentEntries = result;
             //print(currentEntries);
           });
+          for (int i = 0; i < currentEntries.length; i++) {
+            if (i % 2 == 0) {
+              leftEntries.add(currentEntries[i]);
+            } else {
+              rightEntries.add(currentEntries[i]);
+            }
+          }
         });
       }
     });
@@ -86,8 +95,10 @@ class _WishlistState extends State<Wishlist> {
               end: Alignment.bottomCenter,
             ),
           ),
-          child: ListView.builder(
+          child: GridView.builder(
+            
             itemCount: currentEntries.length,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount( crossAxisCount: 2,),
             itemBuilder: (context, index) {
               //contain the hash map into a sharebox item
               ShareBoxItem curr = ShareBoxItem(
