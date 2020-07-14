@@ -49,7 +49,6 @@ class ShareBoxItem {
 
 
   static Image imageFromBase64(String base64String){
-    print(base64String);
     return Image.memory(
       base64Decode(base64String),
       fit:BoxFit.fill

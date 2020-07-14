@@ -18,20 +18,24 @@ class _WishlistState extends State<Wishlist> {
   Firestore db = Firestore.instance;
 
   initState() {
-    print('init state called');
+    print('wishlist init');
     super.initState();
-    print('super init state called');
 
-    retrieveJsonData().then((result) {
-      setState(() {
-        currentEntries = result;
-        //print(currentEntries);
-      });
+    jsonIsEmpty().then((result) {
+      if (result) {
+        createEmptyJson();
+      } else {
+        retrieveJsonData().then((result) {
+          setState(() {
+            currentEntries = result;
+            //print(currentEntries);
+          });
+        });
+      }
     });
   }
 
   refresh() {
-    print('refresh pressed');
     retrieveJsonData().then((result) {
       setState(() {
         currentEntries = result;
@@ -53,7 +57,10 @@ class _WishlistState extends State<Wishlist> {
     //called at init in order to start the data
     SharedPreferences data = await SharedPreferences.getInstance();
     print('pre if in retrieve json');
-    if (data.getString('entries') != null) {
+    if (data.getString('entries') == '{}') {
+      List<ShareBoxItem> result = [];
+      return result;
+    } else if (data.getString('entries') != null) {
       //if data is not empty
       //decode the data and return
       final String savedEntriesJson = data.getString('entries');
@@ -69,7 +76,6 @@ class _WishlistState extends State<Wishlist> {
 
   @override
   Widget build(BuildContext context) {
-    print(currentEntries);
     return Stack(
       children: <Widget>[
         Container(

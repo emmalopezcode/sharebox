@@ -6,6 +6,7 @@ import 'package:share_box/pages/wishlist.dart';
 import 'package:share_box/pages/upload.dart';
 import 'package:share_box/pages/browse.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:share_box/services/json_data.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -59,22 +60,8 @@ class _HomeState extends State<Home> {
         centerTitle: true,
         elevation: 0,
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   child: Icon(Icons.remove_circle),
-      //   onPressed: () {
-      //     db
-      //         .collection('sharebox_db')
-      //         .where('imageBase64', isEqualTo: null)
-      //         .snapshots()
-      //         .listen((data) => data.documents.forEach((doc) {
-      //               db
-      //                   .collection('sharebox_db')
-      //                   .document(doc.documentID)
-      //                   .delete();
-      //             }));
-      //   },
-      // ),
       body: tabs[_currentIndex],
+      floatingActionButton: FloatingActionButton(onPressed: createEmptyJson,),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         items: navBar,

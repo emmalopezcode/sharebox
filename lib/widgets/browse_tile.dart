@@ -9,29 +9,70 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ShareBoxTile extends StatefulWidget {
   final ShareBoxItem item;
-  ShareBoxTile({this.item});
+  final Function onFavoritePressed;
+  ShareBoxTile({this.item, this.onFavoritePressed});
 
   @override
-  _ShareBoxTileState createState() => _ShareBoxTileState(item: item);
+  _ShareBoxTileState createState() => _ShareBoxTileState(item: item, onFavoritePressed: onFavoritePressed);
 }
 
 class _ShareBoxTileState extends State<ShareBoxTile> {
   ShareBoxItem item;
-  _ShareBoxTileState({this.item});
+  Function onFavoritePressed;
+  _ShareBoxTileState({this.item, this.onFavoritePressed});
 
   Icon icon = Icon(Icons.favorite_border);
   bool isFavorited = false;
   Firestore db = Firestore.instance;
 
-  void changeWishlistState() {
-    setState(() {
-      if (item.inWishlist) {
-        removeJsonData(item);
-      } else {
-        saveJsonData(item);
-      }
-      item.inWishlist = !item.inWishlist;
+  @override
+  void initState() {
+    isInJson(item).then((value) {
+      isFavorited = value;
     });
+    super.initState();
+  }
+
+  // Future<bool> isInWishlist() async {
+  //   var result = await isInJson(item);
+  //   return result;
+  // }
+
+  Future<void> changeWishlistState(ShareBoxItem item) async {
+    setState(() {
+      isInJson(item).then((value) {
+        if (value) {
+          removeJsonData(item);
+        } else {
+          saveJsonData(item);
+        }
+      });
+    });
+  }
+
+  FutureBuilder<bool> buildFavoriteButton() {
+    return FutureBuilder<bool>(
+      future: isInJson(item),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          if (snapshot.data) {
+            return IconButton(
+              icon: Icon(Icons.favorite),
+              color: pinkPop,
+              onPressed: onFavoritePressed,
+            );
+          } else {
+            return IconButton(
+              icon: Icon(Icons.favorite_border),
+              color: pinkPop,
+              onPressed: onFavoritePressed,
+            );
+          }
+        } else {
+          return Text('no data');
+        }
+      },
+    );
   }
 
   createItemDialog(BuildContext context) {
@@ -81,6 +122,7 @@ class _ShareBoxTileState extends State<ShareBoxTile> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
     return Stack(children: <Widget>[
       Padding(
         padding: const EdgeInsets.all(8.0),
@@ -116,13 +158,7 @@ class _ShareBoxTileState extends State<ShareBoxTile> {
           SizedBox(
             width: size.width * .16,
           ),
-          IconButton(
-            icon: item.inWishlist
-                ? Icon(Icons.favorite)
-                : Icon(Icons.favorite_border),
-            color: pinkPop,
-            onPressed: changeWishlistState,
-          ),
+          buildFavoriteButton(),
         ],
       ),
     ]);

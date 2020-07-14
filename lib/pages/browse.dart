@@ -4,11 +4,42 @@ import 'package:share_box/misc/data.dart';
 import 'package:share_box/services/json_data.dart';
 import 'package:share_box/widgets/browse_tile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:math';
 
-class Browse extends StatelessWidget {
+import 'package:share_box/widgets/featured_tile.dart';
+
+class Browse extends StatefulWidget {
   final List<ShareBoxItem> items;
+
   Browse({this.items});
+
+  @override
+  _BrowseState createState() => _BrowseState();
+}
+
+class _BrowseState extends State<Browse> {
   Firestore db = Firestore.instance;
+  
+  int dbSize;
+  Future<ShareBoxItem> featuredFuture;
+  Future<QuerySnapshot> documentsAtBoot;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  Future<void> changeWishlistState(ShareBoxItem item) async {
+    setState(() {
+      isInJson(item).then((value) {
+        if (value) {
+          removeJsonData(item);
+        } else {
+          saveJsonData(item);
+        }
+      });
+    });
+  }
 
   ShareBoxTile buildShareBoxTile(DocumentSnapshot doc) {
     ShareBoxItem curr = ShareBoxItem(
@@ -31,17 +62,7 @@ class Browse extends StatelessWidget {
       }
     });
 
-    return ShareBoxTile(item: curr);
-  }
-
-//research the update data function and pass it into the the sharebox tile with the 'onLike'
-  void changeFavorite(DocumentSnapshot doc) async {
-    Map data = doc.data;
-    data['inWishlist'] = !data['inWishlist'];
-    await db
-        .collection('sharebox_db')
-        .document(doc.documentID)
-        .updateData(data);
+    return ShareBoxTile(item: curr, onFavoritePressed: ()async{await changeWishlistState(curr);},);
   }
 
   Container buildOneRow(height) {
@@ -52,7 +73,6 @@ class Browse extends StatelessWidget {
             stream: db.collection('sharebox_db').snapshots(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                print(snapshot.data.documents.length);
                 return Row(
                     children: snapshot.data.documents
                         .map((doc) => buildShareBoxTile(doc))
@@ -76,7 +96,6 @@ class Browse extends StatelessWidget {
                 .snapshots(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                print(snapshot.data.documents.length);
                 return Row(
                     children: snapshot.data.documents
                         .map((doc) => buildShareBoxTile(doc))
@@ -91,19 +110,50 @@ class Browse extends StatelessWidget {
 
   Container buildLabelText(Size size, String text) {
     return Container(
-                padding: EdgeInsets.symmetric(horizontal:10),
-                width: size.width,
-                child: Text(
-                  text,
-                  style: TextStyle(color: pinkPop, fontSize: 20),
-                  textAlign: TextAlign.left,
-                ),
-              );
+      padding: EdgeInsets.symmetric(horizontal: 10),
+      width: size.width,
+      child: Text(
+        text,
+        style: TextStyle(color: pinkPop, fontSize: 20),
+        textAlign: TextAlign.left,
+      ),
+    );
+  }
+
+  Future<QuerySnapshot> getDocumentsAtBoot() async {
+    var docs = await db.collection('sharebox_db').getDocuments();
+    return docs;
+  }
+
+  FutureBuilder<QuerySnapshot> buildFeature() {
+    return FutureBuilder(
+      future: getDocumentsAtBoot(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          Random rnd = new Random();
+          print(snapshot.data.documents.length);
+          int random = rnd.nextInt(snapshot.data.documents.length);
+          DocumentSnapshot chosen = snapshot.data.documents[random];
+          ShareBoxItem curr = ShareBoxItem(
+              category: chosen['category'],
+              title: chosen['title'],
+              imageBase64: chosen['imageBase64'],
+              description: chosen['description'],
+              house: chosen['house']);
+          return FeaturedTile(item:curr);
+        } else if (snapshot.hasError) {
+          return Text("${snapshot.error}");
+        } else {
+          return CircularProgressIndicator();
+        }
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    print('build initiated');
     return Stack(
       fit: StackFit.loose,
       children: <Widget>[
@@ -118,6 +168,9 @@ class Browse extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
+                buildLabelText(size, 'FEATURED'),
+                // buildFeaturedItem(size, doc),
+                buildFeature(),
                 buildLabelText(size, 'New'),
                 buildOneRow(size.height * .2),
                 buildOneRowQuery(size.height * .2, 'true?'),
@@ -132,6 +185,4 @@ class Browse extends StatelessWidget {
       ],
     );
   }
-
-  
 }

@@ -1,13 +1,11 @@
 
-once you test the streamed data, test the save and return images w base64
 test on ios
 refactor the shit out of upload.dart 
-
+clothing and house filters
+clothing filter animation
+    -size
+    
+put the size if its clothing into the upload section
 
 search [and theres a lot: algolia, a few ui panels]
-
-keep the doubles in wishlist from happening
-    -create a list out of the data in the json
-    -loop through with the equals function and then if it equals any of them dont put it in
-    -also the inWishlist is a thing for the database to save
 
