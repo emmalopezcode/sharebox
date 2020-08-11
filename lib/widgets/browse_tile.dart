@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:share_box/classes/sharebox_item.dart';
 import 'package:share_box/misc/data.dart';
+import 'package:share_box/pages/tile_screen.dart';
 import 'package:share_box/services/json_data.dart';
 import 'package:share_box/widgets/custom_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,7 +14,8 @@ class ShareBoxTile extends StatefulWidget {
   ShareBoxTile({this.item, this.onFavoritePressed});
 
   @override
-  _ShareBoxTileState createState() => _ShareBoxTileState(item: item, onFavoritePressed: onFavoritePressed);
+  _ShareBoxTileState createState() =>
+      _ShareBoxTileState(item: item, onFavoritePressed: onFavoritePressed);
 }
 
 class _ShareBoxTileState extends State<ShareBoxTile> {
@@ -129,7 +131,9 @@ class _ShareBoxTileState extends State<ShareBoxTile> {
         child: Container(
           child: GestureDetector(
             onTap: () {
-              createItemDialog(context);
+              //createItemDialog(context);
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => TileScreen(item:item, onFavoritePressed:onFavoritePressed)));
             },
             child: Column(
               children: <Widget>[

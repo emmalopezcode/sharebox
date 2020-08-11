@@ -56,7 +56,8 @@ class WishListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Center(
+    return Align(
+      alignment: Alignment.center,
       child: GestureDetector(
         onTap: () {
           createItemDialog(context);
@@ -76,30 +77,51 @@ class WishListTile extends StatelessWidget {
                     )),
                   ),
                 ),
-                SizedBox(
-                  height: 10,
-                )
+                Text(
+                  '${item.title}',
+                  style: TextStyle(color: Colors.white),
+                ),
               ],
             ),
-            Column(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
-                  child: Text(
-                    '${item.title}',
-                    style: TextStyle(color: Colors.white),
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Column(
+                children: <Widget>[
+                  buildAlignedTextLabel('${item.category}', context),
+                  SizedBox(
+                    height: 5,
                   ),
-                ),
-                Text('${item.category}', style: TextStyle(color: Colors.white)),
-                Text('${item.description}', style: TextStyle(color: Colors.white)),
-                Text('${item.house}', style: TextStyle(color: Colors.white)),
-                IconButton(icon: Icon(Icons.delete_sweep),onPressed: delete,color: pinkPop,),
-              ],
-
+                  buildAlignedTextLabel('${item.description}', context),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  buildAlignedTextLabel('${item.house}', context),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.delete_sweep),
+                    onPressed: delete,
+                    color: pinkPop,
+                  ),
+                ],
+              ),
             )
           ],
         ),
       ),
     );
+  }
+
+  Container buildAlignedTextLabel(String text, BuildContext context) {
+        Size size = MediaQuery.of(context).size;
+
+    return Container(
+        width: size.width*.38,
+        //color: Colors.red,
+        child: Text(
+          text,
+          style: TextStyle(color: Colors.white),
+        ));
   }
 }

@@ -4,10 +4,10 @@ refactor the shit out of upload.dart
 clothing and house filters
 clothing filter animation
     -size
-redesign the wishlist tile
-wishlist two columns, organize them by odd and even in the list?
-
+fix the problem with the dropdown menus
+build page for the onClick of the browse and wishlist
+wrap the whole page in a future builder in order to have one loading screen
 put the size if its clothing into the upload section
-
+fix color, press and location of favorite button in tilescreen
 search [and theres a lot: algolia, a few ui panels]
 

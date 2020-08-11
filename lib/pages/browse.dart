@@ -19,7 +19,7 @@ class Browse extends StatefulWidget {
 
 class _BrowseState extends State<Browse> {
   Firestore db = Firestore.instance;
-  
+
   int dbSize;
   Future<ShareBoxItem> featuredFuture;
   Future<QuerySnapshot> documentsAtBoot;
@@ -62,7 +62,13 @@ class _BrowseState extends State<Browse> {
       }
     });
 
-    return ShareBoxTile(item: curr, onFavoritePressed: ()async{await changeWishlistState(curr);},);
+    return ShareBoxTile(
+      item: curr,
+      onFavoritePressed: () async {
+        print('Favorite pressed');
+        await changeWishlistState(curr);
+      },
+    );
   }
 
   Container buildOneRow(height) {
@@ -140,7 +146,7 @@ class _BrowseState extends State<Browse> {
               imageBase64: chosen['imageBase64'],
               description: chosen['description'],
               house: chosen['house']);
-          return FeaturedTile(item:curr);
+          return FeaturedTile(item: curr);
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
         } else {

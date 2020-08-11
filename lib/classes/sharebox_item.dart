@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'dart:typed_data';
 
 
 class ShareBoxItem {

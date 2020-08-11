@@ -83,8 +83,11 @@ class _FinalUploadState extends State<FinalUpload> {
               SizedBox(
                 height: size.height * .03,
               ),
-              Text('${item.description}',
-                  style: TextStyle(color: Colors.white)),
+              Container(
+                width: size.width*.65,
+                child: Text('${item.description}',
+                    style: TextStyle(color: Colors.white)),
+              ),
               SizedBox(
                 height: size.height * .03,
               ),
