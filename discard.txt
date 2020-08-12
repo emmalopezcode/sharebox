@@ -10,3 +10,48 @@
             }));
     return result;
   }
+
+  
+  createItemDialog(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return SimpleDialog(
+            contentPadding: EdgeInsets.all(0),
+            children: <Widget>[
+              Column(
+                children: <Widget>[
+                  ShareBoxItem.imageFromBase64(item.imageBase64),
+                  SizedBox(height: 10.0),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      '${item.description}',
+                      textAlign: TextAlign.left,
+                      maxLines: 4,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  SizedBox(height: 10.0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      SlimButton(
+                          text: 'pick up', color: pinkPop, action: () {}),
+                      SlimButton(
+                        text: 'add to wishlist',
+                        color: pinkPop,
+                        action: () async {
+                          await saveJsonData(item);
+                        },
+                      ),
+                      SlimButton(text: 'X', color: Colors.red),
+                    ],
+                  ),
+                  SizedBox(height: 10.0),
+                ],
+              ),
+            ],
+          );
+        });
+  }

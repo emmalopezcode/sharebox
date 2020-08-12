@@ -65,7 +65,6 @@ class _BrowseState extends State<Browse> {
     return ShareBoxTile(
       item: curr,
       onFavoritePressed: () async {
-        print('Favorite pressed');
         await changeWishlistState(curr);
       },
     );
@@ -137,7 +136,6 @@ class _BrowseState extends State<Browse> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           Random rnd = new Random();
-          print(snapshot.data.documents.length);
           int random = rnd.nextInt(snapshot.data.documents.length);
           DocumentSnapshot chosen = snapshot.data.documents[random];
           ShareBoxItem curr = ShareBoxItem(
@@ -146,7 +144,13 @@ class _BrowseState extends State<Browse> {
               imageBase64: chosen['imageBase64'],
               description: chosen['description'],
               house: chosen['house']);
-          return FeaturedTile(item: curr);
+          return FeaturedTile(
+            item: curr,
+            onFavoritePressed: () async {
+              print('clicked fave');
+              await changeWishlistState(curr);
+            },
+          );
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
         } else {
@@ -159,7 +163,6 @@ class _BrowseState extends State<Browse> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    print('build initiated');
     return Stack(
       fit: StackFit.loose,
       children: <Widget>[

@@ -61,7 +61,6 @@ class _HomeState extends State<Home> {
         elevation: 0,
       ),
       body: tabs[_currentIndex],
-      floatingActionButton: FloatingActionButton(onPressed: createEmptyJson,),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         items: navBar,

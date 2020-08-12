@@ -9,19 +9,38 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class TileScreen extends StatefulWidget {
-  ShareBoxItem item;
+  final ShareBoxItem item;
   final Function onFavoritePressed;
 
   TileScreen({this.item, this.onFavoritePressed});
   @override
-  _TileScreenState createState() => _TileScreenState(item: item);
+  _TileScreenState createState() =>
+      _TileScreenState(item: item, onFavoritePressed: onFavoritePressed);
 }
 
 class _TileScreenState extends State<TileScreen> {
   final ShareBoxItem item;
   final Function onFavoritePressed;
   _TileScreenState({this.item, this.onFavoritePressed});
+  String test = 'yay';
 
+@override
+  void initState() {
+    
+    super.initState();
+  }
+
+  Future<void> changeWishlistState(ShareBoxItem item) async {
+    setState(() {
+      isInJson(item).then((value) {
+        if (value) {
+          removeJsonData(item);
+        } else {
+          saveJsonData(item);
+        }
+      });
+    });
+  }
   FutureBuilder<bool> buildFavoriteButton() {
     return FutureBuilder<bool>(
       future: isInJson(item),
@@ -30,14 +49,20 @@ class _TileScreenState extends State<TileScreen> {
           if (snapshot.data) {
             return IconButton(
               icon: Icon(Icons.favorite),
-              color: Colors.white,
-              onPressed: onFavoritePressed,
+              color: pinkPop,
+              onPressed: (){
+                
+                changeWishlistState(item);
+                },
             );
           } else {
             return IconButton(
               icon: Icon(Icons.favorite_border),
               color: pinkPop,
-              onPressed: onFavoritePressed,
+              onPressed: (){
+                
+                changeWishlistState(item);
+                },
             );
           }
         } else {
@@ -57,20 +82,17 @@ class _TileScreenState extends State<TileScreen> {
         title: Text('${item.title}'),
         backgroundColor: abColor,
         elevation: 0,
+        actions: <Widget>[
+          buildFavoriteButton(),
+          SizedBox(
+            width: size.width * .08,
+          )
+        ],
       ),
       body: Container(
           color: abColor,
           child: Column(
             children: <Widget>[
-              Container(
-                width: size.width * .85,
-                child: Row(
-                  children: <Widget>[
-                    Spacer(),
-                    buildFavoriteButton(),
-                  ],
-                ),
-              ),
               Center(
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(15),
@@ -82,24 +104,28 @@ class _TileScreenState extends State<TileScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: 30,),
+              SizedBox(
+                height: 30,
+              ),
               Container(
-                width: size.width*.8,
+                width: size.width * .8,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Column(
                       children: <Widget>[
-                        ColoredChunk(text:'${item.category}'),
-                                      SizedBox(height: 20,),
-
-                        ColoredChunk(text:'${item.house}')
-
+                        ColoredChunk(text: '${item.category}'),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        ColoredChunk(text: '${item.house}')
                       ],
                     ),
                     Column(
                       children: <Widget>[
-                        ColoredChunk(text:'${item.description}'),
+                        ColoredChunk(text: '${item.description}'),
+                        ColoredChunk(text: test),
+                       
                       ],
                     ),
                   ],
@@ -112,17 +138,15 @@ class _TileScreenState extends State<TileScreen> {
 }
 
 class ColoredChunk extends StatelessWidget {
-  
   ColoredChunk({this.text});
   final String text;
 
-  double heightAlgo(){
-    double result = text.length*1.0;
-    double extra = text.length*1/8;
+  double heightAlgo() {
+    double result = text.length * 1.0;
+    double extra = text.length * 1 / 8;
     result -= extra;
     result += 20;
     return result;
-
   }
 
   @override
@@ -135,9 +159,11 @@ class ColoredChunk extends StatelessWidget {
         color: pinkPop,
         child: Center(
           child: Padding(
-            padding: const EdgeInsets.symmetric(
-                horizontal: 10, vertical: 0),
-            child: Text(text),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+            child: Text(
+              text,
+              style: TextStyle(color: Colors.white),
+            ),
           ),
         ),
       ),

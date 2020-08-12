@@ -5,25 +5,42 @@ import 'package:share_box/services/json_data.dart';
 
 class FeaturedTile extends StatefulWidget {
   final ShareBoxItem item;
-  FeaturedTile({this.item});
+  final Function onFavoritePressed;
+  FeaturedTile({this.item, this.onFavoritePressed});
 
   @override
-  _FeaturedTileState createState() => _FeaturedTileState(item: item);
+  _FeaturedTileState createState() =>
+      _FeaturedTileState(item: item, onFavoritePressed: onFavoritePressed);
 }
 
 class _FeaturedTileState extends State<FeaturedTile> {
   ShareBoxItem item;
-  _FeaturedTileState({this.item});
+  final Function onFavoritePressed;
+  _FeaturedTileState({this.item, this.onFavoritePressed});
 
-  void changeWishlistState() {
-    setState(() {
-      if (item.inWishlist) {
-        removeJsonData(item);
-      } else {
-        saveJsonData(item);
-      }
-      item.inWishlist = !item.inWishlist;
-    });
+  FutureBuilder<bool> buildFavoriteButton() {
+    return FutureBuilder<bool>(
+      future: isInJson(item),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          if (snapshot.data) {
+            return IconButton(
+              icon: Icon(Icons.favorite),
+              color: pinkPop,
+              onPressed: onFavoritePressed,
+            );
+          } else {
+            return IconButton(
+              icon: Icon(Icons.favorite_border),
+              color: pinkPop,
+              onPressed: onFavoritePressed,
+            );
+          }
+        } else {
+          return Text('no data');
+        }
+      },
+    );
   }
 
   @override
@@ -46,17 +63,17 @@ class _FeaturedTileState extends State<FeaturedTile> {
                 Row(
                   children: <Widget>[
                     Spacer(),
-                    IconButton(
-                      icon: item.inWishlist
-                          ? Icon(Icons.favorite)
-                          : Icon(Icons.favorite_border),
-                      color: pinkPop,
-                      onPressed: changeWishlistState,
-                    ),
+                    
+                    buildFavoriteButton(),
                   ],
                 ),
-                SizedBox(height: size.height*.35,),
-                Text('${item.title}', style: TextStyle(color: Colors.white, fontSize: 35),)
+                SizedBox(
+                  height: size.height * .35,
+                ),
+                Text(
+                  '${item.title}',
+                  style: TextStyle(color: Colors.white, fontSize: 35),
+                )
               ],
             ),
           ],

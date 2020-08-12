@@ -52,7 +52,6 @@ Future<List<ShareBoxItem>> getJsonDataAsList() async {
     List<ShareBoxItem> result = [];
     return result;
   } else if (savedEntriesJson != null) {
-    print(savedEntriesJson);
     final List<dynamic> entriesDeserialized = json.decode(savedEntriesJson);
 
     List<ShareBoxItem> deserializedEntries =
@@ -89,6 +88,7 @@ Future<void> removeJsonData(ShareBoxItem entry) async {
 }
 
 Future<void> saveJsonData(ShareBoxItem entry) async {
+
   bool isDuplicate = false;
   SharedPreferences data = await SharedPreferences.getInstance();
   final String savedEntriesJson = data.getString('entries');

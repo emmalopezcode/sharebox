@@ -1,5 +1,6 @@
 
 test on ios
+    -add it to firebase
 refactor the shit out of upload.dart 
 clothing and house filters
 clothing filter animation
@@ -7,7 +8,10 @@ clothing filter animation
 fix the problem with the dropdown menus
 build page for the onClick of the browse and wishlist
 wrap the whole page in a future builder in order to have one loading screen
+    -test app with some simple weather api calls
 put the size if its clothing into the upload section
-fix color, press and location of favorite button in tilescreen
+fix color and press of favorite button in tilescreen
 search [and theres a lot: algolia, a few ui panels]
-
+change featured to being a cloud function thats chosen every 24 hours
+fix text in wishlist tile
+add slide animation for the tile screen and all of the upload screens

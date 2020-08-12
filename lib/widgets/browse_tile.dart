@@ -35,17 +35,16 @@ class _ShareBoxTileState extends State<ShareBoxTile> {
     super.initState();
   }
 
-  // Future<bool> isInWishlist() async {
-  //   var result = await isInJson(item);
-  //   return result;
-  // }
-
   Future<void> changeWishlistState(ShareBoxItem item) async {
+    print('change wishlist state');
     setState(() {
       isInJson(item).then((value) {
         if (value) {
+          print('in json');
           removeJsonData(item);
         } else {
+          print('not in json');
+
           saveJsonData(item);
         }
       });
@@ -77,50 +76,6 @@ class _ShareBoxTileState extends State<ShareBoxTile> {
     );
   }
 
-  createItemDialog(BuildContext context) {
-    return showDialog(
-        context: context,
-        builder: (context) {
-          return SimpleDialog(
-            contentPadding: EdgeInsets.all(0),
-            children: <Widget>[
-              Column(
-                children: <Widget>[
-                  ShareBoxItem.imageFromBase64(item.imageBase64),
-                  SizedBox(height: 10.0),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      '${item.description}',
-                      textAlign: TextAlign.left,
-                      maxLines: 4,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  SizedBox(height: 10.0),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      SlimButton(
-                          text: 'pick up', color: pinkPop, action: () {}),
-                      SlimButton(
-                        text: 'add to wishlist',
-                        color: pinkPop,
-                        action: () async {
-                          await saveJsonData(item);
-                        },
-                      ),
-                      SlimButton(text: 'X', color: Colors.red),
-                    ],
-                  ),
-                  SizedBox(height: 10.0),
-                ],
-              ),
-            ],
-          );
-        });
-  }
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -131,9 +86,15 @@ class _ShareBoxTileState extends State<ShareBoxTile> {
         child: Container(
           child: GestureDetector(
             onTap: () {
-              //createItemDialog(context);
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => TileScreen(item:item, onFavoritePressed:onFavoritePressed)));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => TileScreen(
+                          item: item,
+                          onFavoritePressed: () async {
+                            print('clicky clicky');
+                            await changeWishlistState(item);
+                          })));
             },
             child: Column(
               children: <Widget>[
