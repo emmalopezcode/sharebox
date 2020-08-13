@@ -168,6 +168,7 @@ class _TextDetailsState extends State<TextDetails> {
                       icon: Icon(Icons.arrow_downward),
                       iconSize: 24,
                       elevation: 16,
+                      dropdownColor: pinkPop,
                       style: TextStyle(color: Colors.white),
                       underline: Container(
                         height: 2,
@@ -195,6 +196,7 @@ class _TextDetailsState extends State<TextDetails> {
                       icon: Icon(Icons.arrow_downward),
                       iconSize: 24,
                       elevation: 16,
+                      dropdownColor: pinkPop,
                       style: TextStyle(color: Colors.white),
                       underline: Container(
                         height: 2,
