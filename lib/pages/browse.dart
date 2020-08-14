@@ -5,6 +5,8 @@ import 'package:share_box/services/json_data.dart';
 import 'package:share_box/widgets/browse_tile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:math';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+
 
 import 'package:share_box/widgets/featured_tile.dart';
 
@@ -125,6 +127,34 @@ class _BrowseState extends State<Browse> {
     );
   }
 
+  // return Container(
+  //           width: MediaQuery.of(context).size.width,
+  //           height: MediaQuery.of(context).size.height,
+  //           color: abColor,
+  //           child: Center(child: CircularProgressIndicator()),
+  //         );
+  Future<bool> delay() {
+    return Future.delayed(Duration(milliseconds: 1000)).then((onValue) => true);
+  }
+
+  FutureBuilder buildAnimation() {
+    return FutureBuilder(
+      future: delay(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return Container();
+        } else {
+          return Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            color: abColor,
+            child: SpinKitWave(color: pinkPop, size: 50,),
+          );
+        }
+      },
+    );
+  }
+
   Future<QuerySnapshot> getDocumentsAtBoot() async {
     var docs = await db.collection('sharebox_db').getDocuments();
     return docs;
@@ -177,6 +207,8 @@ class _BrowseState extends State<Browse> {
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
+                buildAnimation(),
+
                 buildLabelText(size, 'FEATURED'),
                 // buildFeaturedItem(size, doc),
                 buildFeature(),

@@ -95,33 +95,48 @@ class _WishlistState extends State<Wishlist> {
               end: Alignment.bottomCenter,
             ),
           ),
-          child: GridView.builder(
-            
-            itemCount: currentEntries.length,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount( crossAxisCount: 2,),
-            itemBuilder: (context, index) {
-              //contain the hash map into a sharebox item
-              ShareBoxItem curr = ShareBoxItem(
-                  category: currentEntries[index]['category'],
-                  description: currentEntries[index]['description'],
-                  title: currentEntries[index]['title'],
-                  house: currentEntries[index]['house'],
-                  imageBase64: currentEntries[index]['imageBase64']);
-              //ShareBoxItem curr = currentEntries[index];
-              return WishListTile(
-                item: curr,
-                delete: () {
-                  removeJsonData(curr);
-
-                  setState(() {
-                    refresh();
-                  });
-                },
-              );
-            },
-          ),
+          child: buildWishlistGrid(),
         ),
       ],
+    );
+  }
+
+  Widget buildWishlistGrid() {
+    if (currentEntries.length == 0) {
+      return Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          child: Center(
+              child: Text(
+                'Looks like you havent saved anything',
+                style: TextStyle(color: Colors.white, fontSize: 20),
+          )));
+    }
+    return GridView.builder(
+      itemCount: currentEntries.length,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+      ),
+      itemBuilder: (context, index) {
+        //contain the hash map into a sharebox item
+        ShareBoxItem curr = ShareBoxItem(
+            category: currentEntries[index]['category'],
+            description: currentEntries[index]['description'],
+            title: currentEntries[index]['title'],
+            house: currentEntries[index]['house'],
+            imageBase64: currentEntries[index]['imageBase64']);
+        //ShareBoxItem curr = currentEntries[index];
+        return WishListTile(
+          item: curr,
+          delete: () {
+            removeJsonData(curr);
+
+            setState(() {
+              refresh();
+            });
+          },
+        );
+      },
     );
   }
 }

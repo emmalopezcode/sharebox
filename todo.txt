@@ -6,11 +6,13 @@ clothing and house filters
 clothing filter animation
     -size
 build page for the onClick of the browse and wishlist
-wrap the whole page in a future builder in order to have one loading screen
-    -test app with some simple weather api calls
 put the size if its clothing into the upload section
 search [and theres a lot: algolia, a few ui panels]
 change featured to being a cloud function thats chosen every 24 hours
 fix text in wishlist tile
+    -remove all but title and remove button
+    -hook it up to the page that tracks your info
 add slide animation for the tile screen and all of the upload screens
 figure out the camera 
+make a shitload of practice 
+clean up wishlist codebase
