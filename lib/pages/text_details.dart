@@ -3,6 +3,7 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:io';
+import 'package:page_transition/page_transition.dart';
 
 import 'package:share_box/classes/sharebox_item.dart';
 import 'package:share_box/misc/data.dart';

@@ -123,9 +123,8 @@ class _TileScreenState extends State<TileScreen> {
                     ),
                     Column(
                       children: <Widget>[
-                        ColoredChunk(text: '${item.description}'),
-                        ColoredChunk(text: test),
-                       
+                      //  ColoredChunk(text: '${item.description}'),
+                       Container(width: size.width*.36, child: Text('${item.description}', style: TextStyle(color:Colors.white),),)
                       ],
                     ),
                   ],

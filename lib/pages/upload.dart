@@ -7,6 +7,7 @@ import 'package:share_box/misc/data.dart';
 import 'package:share_box/pages/final_upload.dart';
 import 'package:share_box/widgets/custom_button.dart';
 import 'package:share_box/pages/text_details.dart';
+import 'package:page_transition/page_transition.dart';
 
 class Upload extends StatefulWidget {
   @override
@@ -182,13 +183,16 @@ class _UploadState extends State<Upload> {
                   await sendImage(_imageFile);
                   Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => FinalUpload(item)));
+                      PageTransition(
+                        child: FinalUpload(item),
+                        type: PageTransitionType.rightToLeft,
+                        curve: Curves.linear),
+                  );
                 },
               ),
             ],
           )
-        ],
+        ],//FinalUpload(item)
       );
     }
   }

@@ -6,6 +6,8 @@ import 'package:share_box/services/json_data.dart';
 import 'package:share_box/widgets/custom_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
+import 'package:page_transition/page_transition.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ShareBoxTile extends StatefulWidget {
@@ -88,13 +90,18 @@ class _ShareBoxTileState extends State<ShareBoxTile> {
             onTap: () {
               Navigator.push(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) => TileScreen(
+                  PageTransition(
+                        child: TileScreen(
                           item: item,
                           onFavoritePressed: () async {
                             print('clicky clicky');
                             await changeWishlistState(item);
-                          })));
+                          }
+                        ),
+                        type: PageTransitionType.rightToLeft,
+                        curve: Curves.linear),
+                  );
+                  
             },
             child: Column(
               children: <Widget>[
