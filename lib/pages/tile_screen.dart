@@ -24,9 +24,8 @@ class _TileScreenState extends State<TileScreen> {
   _TileScreenState({this.item, this.onFavoritePressed});
   String test = 'yay';
 
-@override
+  @override
   void initState() {
-    
     super.initState();
   }
 
@@ -41,6 +40,7 @@ class _TileScreenState extends State<TileScreen> {
       });
     });
   }
+
   FutureBuilder<bool> buildFavoriteButton() {
     return FutureBuilder<bool>(
       future: isInJson(item),
@@ -50,19 +50,17 @@ class _TileScreenState extends State<TileScreen> {
             return IconButton(
               icon: Icon(Icons.favorite),
               color: pinkPop,
-              onPressed: (){
-                
+              onPressed: () {
                 changeWishlistState(item);
-                },
+              },
             );
           } else {
             return IconButton(
               icon: Icon(Icons.favorite_border),
               color: pinkPop,
-              onPressed: (){
-                
+              onPressed: () {
                 changeWishlistState(item);
-                },
+              },
             );
           }
         } else {
@@ -99,13 +97,13 @@ class _TileScreenState extends State<TileScreen> {
                   child: Container(
                     child: ShareBoxItem.imageFromBase64(item.imageBase64),
                     color: pinkPop,
-                    width: size.width * .8,
-                    height: size.width * .8,
+                    width: size.width * .87,
+                    height: size.width * .87,
                   ),
                 ),
               ),
               SizedBox(
-                height: 30,
+                height: 20,
               ),
               Container(
                 width: size.width * .8,
@@ -114,17 +112,57 @@ class _TileScreenState extends State<TileScreen> {
                   children: <Widget>[
                     Column(
                       children: <Widget>[
-                        ColoredChunk(text: '${item.category}'),
+                        Container(
+                          width: size.width * .8,
+                          child: Text(
+                            '${item.description}',
+                            style: TextStyle(color: Colors.white, fontSize: 20),
+                            textAlign: TextAlign.justify,
+                          ),
+                        ),
                         SizedBox(
                           height: 20,
                         ),
-                        ColoredChunk(text: '${item.house}')
-                      ],
-                    ),
-                    Column(
-                      children: <Widget>[
-                      //  ColoredChunk(text: '${item.description}'),
-                       Container(width: size.width*.36, child: Text('${item.description}', style: TextStyle(color:Colors.white),),)
+                        Row(
+                          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            ColoredChunk(text: '${item.house}'),
+                            SizedBox(
+                              width: 15,
+                            ),
+                            ColoredChunk(text: '${item.category}')
+                          ],
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                       
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                            
+                          },
+                          child: Container(
+                            padding: EdgeInsets.all(8),
+                            decoration: BoxDecoration(border: Border.all(color:pinkPop,width:5)),
+                            child: Row(
+                              children: <Widget>[
+                                Icon(
+                                  Icons.arrow_back_ios,
+                                  color: Colors.white,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  'Return Home',
+                                  style: TextStyle(
+                                      fontSize: 20, color: Colors.white),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ],
@@ -140,28 +178,20 @@ class ColoredChunk extends StatelessWidget {
   ColoredChunk({this.text});
   final String text;
 
-  double heightAlgo() {
-    double result = text.length * 1.0;
-    double extra = text.length * 1 / 8;
-    result -= extra;
-    result += 20;
-    return result;
-  }
-
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(15),
       child: Container(
-        width: MediaQuery.of(context).size.width * .36,
-        height: heightAlgo(),
+        width: MediaQuery.of(context).size.width * .33,
+        height: 34,
         color: pinkPop,
         child: Center(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
             child: Text(
               text,
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: Colors.white, fontSize: 14),
             ),
           ),
         ),

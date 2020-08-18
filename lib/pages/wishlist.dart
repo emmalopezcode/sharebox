@@ -113,6 +113,7 @@ class _WishlistState extends State<Wishlist> {
           )));
     }
     return GridView.builder(
+      padding: EdgeInsets.all(0),
       itemCount: currentEntries.length,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,

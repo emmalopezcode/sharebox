@@ -2,19 +2,11 @@ NEEDS
 --------------------------------
 test on ios
     -add it to firebase
-fix text in wishlist tile
-    -remove all but title and remove button
-    -hook it up to the page that tracks your info
 add slide animation to all of the upload screens
 fix upload
 add fade animation from the load page to the home page
-build page for the onClick of the browse and wishlist
-    -finish refining
-    -add the same little text blobs to the text_details file
-    -description text block
-    -little blobs at the bottom
-    -return to home
-    -add to wishlist
+make a shitload of practice data
+
 
 WANTS
 -----------------------------
@@ -26,7 +18,6 @@ put the size if its clothing into the upload section
 search [and theres a lot: algolia, a few ui panels]
 change featured to being a cloud function thats chosen every 24 hours
 figure out the camera 
-make a shitload of practice data
 clean up wishlist codebase
 fix refresh when you click the heart in the tile screen
 add dark and light mode
