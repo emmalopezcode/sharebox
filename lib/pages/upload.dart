@@ -23,7 +23,6 @@ class _UploadState extends State<Upload> {
 
   /// Cropper plugin
   Future<void> _cropImage() async {
-    print('crop image called');
     File cropped = await ImageCropper.cropImage(
         sourcePath: _imageFile.path,
         maxWidth: 512,

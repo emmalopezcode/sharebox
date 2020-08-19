@@ -278,10 +278,7 @@ class _TextDetailsState extends State<TextDetails> {
             SizedBox(
               height: 15,
             ),
-            Text(
-              warning,
-              style: TextStyle(color: pinkPop),
-            ),
+            
             SizedBox(
               height: 15,
             ),

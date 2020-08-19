@@ -139,9 +139,6 @@ class _FinalUploadState extends State<FinalUpload> {
                   ),
                 ],
               ),
-              SizedBox(
-                height: size.height * .03,
-              ),
               loading,
               Text(
                 isComplete,

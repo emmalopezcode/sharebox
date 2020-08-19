@@ -1,12 +1,18 @@
 NEEDS
 --------------------------------
 test on ios
-    -add it to firebase
 add slide animation to all of the upload screens
-fix upload
+fix upload (gice it more thought)
+    -split into 
+        -acquire_picture
+        -crop picture
 add fade animation from the load page to the home page
 make a shitload of practice data
-
+fix the like on tile screen problem
+have a way to take it out of the database
+completely redesign final_upload's layout
+    -upload button becomes return to home button
+    -figure out what to do with the text
 
 WANTS
 -----------------------------
@@ -19,5 +25,7 @@ search [and theres a lot: algolia, a few ui panels]
 change featured to being a cloud function thats chosen every 24 hours
 figure out the camera 
 clean up wishlist codebase
-fix refresh when you click the heart in the tile screen
 add dark and light mode
+highlight house that is publishing the most
+when you remove send me an email??
+a row in browse that takes you to a page that is all from a house
