@@ -18,8 +18,48 @@ class _FinalUploadState extends State<FinalUpload> {
   ShareBoxItem item;
   _FinalUploadState(this.item);
   Firestore db = Firestore.instance;
-  String isComplete = 'Ready to upload';
+  String isComplete = 'Ready to Upload?';
   Widget loading = SizedBox(height: 10);
+  Function buttonAction;
+  Icon buttonIcon = Icon(Icons.cloud_upload, color: Colors.white,);
+
+  String buttonText = 'upload';
+
+  void initState(){
+    super.initState();
+    buttonAction = upload;
+  }
+
+
+  void upload() async {
+    setState(() {
+      isComplete = 'Upload in progress';
+      loading = SpinKitWave(
+        color: Colors.white,
+        size: 10,
+      );
+    });
+    await db.collection('sharebox_db').add({
+      'title': item.title,
+      'category': item.category,
+      'description': item.description,
+      'house': item.house,
+      'imageBase64': ShareBoxItem.base64String(item.imageFile)
+    });
+    setState(() {
+      isComplete = 'Upload Complete! Return to Home?';
+      loading = SizedBox(height: 10);
+      buttonAction = returnHome;
+      buttonIcon = Icon(Icons.home, color: Colors.white,);
+      buttonText = 'Home';
+
+    });
+  }
+
+  void returnHome(){
+      Navigator.of(context).popAndPushNamed('/home');
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +69,7 @@ class _FinalUploadState extends State<FinalUpload> {
         elevation: 0,
         backgroundColor: abColor,
         automaticallyImplyLeading: false,
-        title: Text('Everything Correct?'),
+        title: Text('$isComplete'),
         centerTitle: true,
       ),
       body: Stack(
@@ -75,18 +115,31 @@ class _FinalUploadState extends State<FinalUpload> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  Text('${item.house}', style: TextStyle(color: Colors.white)),
-                  Text('${item.category}',
-                      style: TextStyle(color: Colors.white)),
+                  ClipRRect(
+                      borderRadius: BorderRadius.circular(13),
+                      child: Container(
+                          padding: EdgeInsets.all(6),
+                          color: Colors.white,
+                          child: Text('${item.house}',
+                              style: TextStyle(color: abColor)))),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(13),
+                    child: Container(
+                      padding: EdgeInsets.all(6),
+                      color: Colors.white,
+                      child: Text('${item.category}',
+                          style: TextStyle(color: abColor)),
+                    ),
+                  ),
                 ],
               ),
               SizedBox(
                 height: size.height * .03,
               ),
               Container(
-                width: size.width*.65,
+                width: size.width * .65,
                 child: Text('${item.description}',
-                    style: TextStyle(color: Colors.white)),
+                    style: TextStyle(color: Colors.white, fontSize: 20)),
               ),
               SizedBox(
                 height: size.height * .03,
@@ -110,55 +163,23 @@ class _FinalUploadState extends State<FinalUpload> {
                     },
                   ),
                   FlatButton.icon(
-                    icon: Icon(
-                      Icons.cloud_upload,
-                      color: Colors.white,
-                    ),
+                    icon: buttonIcon,
                     color: pinkPop,
                     label: Text(
-                      'upload',
-                      style: TextStyle(color: Colors.white, ),
+                      '$buttonText',
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
                     ),
-                    onPressed: () async {
-                      setState(() {
-                        isComplete = 'Upload in progress';
-                        loading = SpinKitWave(color: Colors.white, size: 10,);
-                      });
-                      await db.collection('sharebox_db').add({
-                        'title': item.title,
-                        'category': item.category,
-                        'description': item.description,
-                        'house': item.house,
-                        'imageBase64': ShareBoxItem.base64String(item.imageFile)
-                      });
-                      setState(() {
-                        isComplete = 'Upload Complete! Return to Home?';
-                        loading = SizedBox(height: 10);
-                      });
-                    },
+                    onPressed: buttonAction,
                   ),
                 ],
               ),
               loading,
-              Text(
-                isComplete,
-                style: TextStyle(color: Colors.white),
-              ),
               SizedBox(
                 height: size.height * .03,
               ),
-              ClipRRect(
-                child: FlatButton(
-                  color: pinkPop,
-                  child: Text(
-                    'Home',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).popAndPushNamed('/home');
-                  },
-                ),
-              )
+              
             ],
           ),
         ],

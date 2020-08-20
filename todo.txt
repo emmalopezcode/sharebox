@@ -1,18 +1,14 @@
 NEEDS
 --------------------------------
 test on ios
+    -set up flutter
+    -research android sdk
 add slide animation to all of the upload screens
-fix upload (gice it more thought)
-    -split into 
-        -acquire_picture
-        -crop picture
 add fade animation from the load page to the home page
 make a shitload of practice data
 fix the like on tile screen problem
 have a way to take it out of the database
-completely redesign final_upload's layout
-    -upload button becomes return to home button
-    -figure out what to do with the text
+clear the entered data (test with multiple uploads per open)
 
 WANTS
 -----------------------------
@@ -29,3 +25,8 @@ add dark and light mode
 highlight house that is publishing the most
 when you remove send me an email??
 a row in browse that takes you to a page that is all from a house
+fix upload (gice it more thought)
+    -split into 
+        -acquire_picture
+        -crop picture
+slide transition from upload to home
