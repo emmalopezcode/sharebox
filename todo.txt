@@ -1,8 +1,8 @@
 NEEDS
 --------------------------------
 test on ios
-    -set up flutter
-    -research android sdk
+    -set up firebase
+    -start from scratch on a basic test project to see where it falls apart
 add slide animation to all of the upload screens
 add fade animation from the load page to the home page
 make a shitload of practice data
