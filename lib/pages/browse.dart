@@ -25,10 +25,12 @@ class _BrowseState extends State<Browse> {
   int dbSize;
   Future<ShareBoxItem> featuredFuture;
   Future<QuerySnapshot> documentsAtBoot;
+  bool tileScreenOpen;
 
   @override
   void initState() {
     super.initState();
+    tileScreenOpen = false;
   }
 
   Future<void> changeWishlistState(ShareBoxItem item) async {
