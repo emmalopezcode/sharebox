@@ -11,7 +11,61 @@
     return result;
   }
 
-  
+  Navigator.push(
+                  context,
+                  PageTransition(
+                        child: TileScreen(
+                          item: item,
+                          onFavoritePressed: () async {
+                            await changeWishlistState(item);
+                          }
+                        ),
+                        type: PageTransitionType.rightToLeft,
+                        curve: Curves.linear),
+                  );
+
+  SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                buildAnimation(),
+
+            
+                buildOneRow(size.height * .2),
+                
+              ],
+            ),
+          ),
+
+  FutureBuilder<QuerySnapshot> buildFeature() {
+    return FutureBuilder(
+      future: getDocumentsAtBoot(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          Random rnd = new Random();
+          int random = rnd.nextInt(snapshot.data.documents.length);
+          DocumentSnapshot chosen = snapshot.data.documents[random];
+          ShareBoxItem curr = ShareBoxItem(
+              category: chosen['category'],
+              title: chosen['title'],
+              imageBase64: chosen['imageBase64'],
+              description: chosen['description'],
+              house: chosen['house']);
+          return FeaturedTile(
+            item: curr,
+            onFavoritePressed: () async {
+              print('clicked fave');
+              await changeWishlistState(curr);
+            },
+          );
+        } else if (snapshot.hasError) {
+          return Text("${snapshot.error}");
+        } else {
+          return CircularProgressIndicator();
+        }
+      },
+    );
+  }
+
   createItemDialog(BuildContext context) {
     return showDialog(
         context: context,

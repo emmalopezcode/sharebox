@@ -75,6 +75,10 @@ class _TextDetailsState extends State<TextDetails> {
           title: titleController.text,
           imageFile: imageFile,
           house: houseDDV);
+      categoryDDV = 'Category';
+      houseDDV = 'House';
+      titleController.text = '';
+      descriptionController.text = '';
       Navigator.pop(context, {'return object': item});
     }
   }

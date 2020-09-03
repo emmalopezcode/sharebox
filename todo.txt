@@ -1,3 +1,14 @@
+CONSIER THE FOLLOWING
+------------------------------
+discuss with emily
+    -full screen pages (like the gram)
+    -with time stamps that show the most recent first
+problems this would solve
+    -expectation of algolia
+    -tile screen problems
+    -load screen problem
+
+
 NEEDS
 --------------------------------
 test on ios
@@ -8,7 +19,6 @@ add fade animation from the load page to the home page
 make a shitload of practice data
 fix the like on tile screen problem
 have a way to take it out of the database
-clear the entered data (test with multiple uploads per open)
 
 WANTS
 -----------------------------
@@ -25,8 +35,4 @@ add dark and light mode
 highlight house that is publishing the most
 when you remove send me an email??
 a row in browse that takes you to a page that is all from a house
-fix upload (gice it more thought)
-    -split into 
-        -acquire_picture
-        -crop picture
 slide transition from upload to home

@@ -140,7 +140,6 @@ class _TileScreenState extends State<TileScreen> {
                         GestureDetector(
                           onTap: () {
                             Navigator.pop(context);
-                            
                           },
                           child: Container(
                             padding: EdgeInsets.all(8),

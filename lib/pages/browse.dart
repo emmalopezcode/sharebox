@@ -82,10 +82,12 @@ class _BrowseState extends State<Browse> {
             stream: db.collection('sharebox_db').snapshots(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return Row(
-                    children: snapshot.data.documents
-                        .map((doc) => buildShareBoxTile(doc))
-                        .toList());
+                return SingleChildScrollView(
+                                  child: Column(
+                      children: snapshot.data.documents
+                          .map((doc) => buildShareBoxTile(doc))
+                          .toList()),
+                );
               } else {
                 return Text('error');
               }
@@ -129,12 +131,7 @@ class _BrowseState extends State<Browse> {
     );
   }
 
-  // return Container(
-  //           width: MediaQuery.of(context).size.width,
-  //           height: MediaQuery.of(context).size.height,
-  //           color: abColor,
-  //           child: Center(child: CircularProgressIndicator()),
-  //         );
+  
   Future<bool> delay() {
     return Future.delayed(Duration(milliseconds: 1000)).then((onValue) => true);
   }
@@ -162,35 +159,7 @@ class _BrowseState extends State<Browse> {
     return docs;
   }
 
-  FutureBuilder<QuerySnapshot> buildFeature() {
-    return FutureBuilder(
-      future: getDocumentsAtBoot(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          Random rnd = new Random();
-          int random = rnd.nextInt(snapshot.data.documents.length);
-          DocumentSnapshot chosen = snapshot.data.documents[random];
-          ShareBoxItem curr = ShareBoxItem(
-              category: chosen['category'],
-              title: chosen['title'],
-              imageBase64: chosen['imageBase64'],
-              description: chosen['description'],
-              house: chosen['house']);
-          return FeaturedTile(
-            item: curr,
-            onFavoritePressed: () async {
-              print('clicked fave');
-              await changeWishlistState(curr);
-            },
-          );
-        } else if (snapshot.hasError) {
-          return Text("${snapshot.error}");
-        } else {
-          return CircularProgressIndicator();
-        }
-      },
-    );
-  }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -206,24 +175,7 @@ class _BrowseState extends State<Browse> {
               end: Alignment.bottomCenter,
             ),
           ),
-          child: SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                buildAnimation(),
-
-                buildLabelText(size, 'FEATURED'),
-                // buildFeaturedItem(size, doc),
-                buildFeature(),
-                buildLabelText(size, 'New'),
-                buildOneRow(size.height * .2),
-                buildOneRowQuery(size.height * .2, 'true?'),
-                buildOneRow(size.height * .2),
-                buildOneRow(size.height * .2),
-                buildOneRow(size.height * .2),
-                buildOneRow(size.height * .2),
-              ],
-            ),
-          ),
+          child: buildOneRow(size.height)
         ),
       ],
     );

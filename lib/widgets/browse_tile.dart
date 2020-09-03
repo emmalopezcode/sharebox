@@ -85,52 +85,42 @@ class _ShareBoxTileState extends State<ShareBoxTile> {
       Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(
+          height: size.height*.8,
+          width: size.width,
+
           child: GestureDetector(
             onTap: () {
-              Navigator.push(
-                  context,
-                  PageTransition(
-                        child: TileScreen(
-                          item: item,
-                          onFavoritePressed: () async {
-                            await changeWishlistState(item);
-                          }
-                        ),
-                        type: PageTransitionType.rightToLeft,
-                        curve: Curves.linear),
-                  );
+              
                   
             },
             child: Column(
               children: <Widget>[
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Container(
-                    width: size.width * .25,
-                    height: size.width * .25,
-                    child: ShareBoxItem.imageFromBase64(item.imageBase64),
-                  ),
-                ),
-                SizedBox(
-                  height: 4,
-                ),
                 Text(
                   '${item.title}',
                   style: TextStyle(color: Colors.white),
                 ),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Container(
+                    width: size.width * .85,
+                    height: size.width * .85,
+                    child: ShareBoxItem.imageFromBase64(item.imageBase64),
+                  ),
+                ),
+                
+                          Row(
+                            children: [
+                              buildFavoriteButton(),
+                              Spacer(),
+                            ],
+                          ),
+
               ],
             ),
           ),
         ),
       ),
-      Row(
-        children: <Widget>[
-          SizedBox(
-            width: size.width * .16,
-          ),
-          buildFavoriteButton(),
-        ],
-      ),
+      
     ]);
   }
 }
