@@ -68,7 +68,7 @@ class _BrowseState extends State<Browse> {
                 onPressed: () async {
                   await db
                       .collection('sharebox_db')
-                      .document(doc.documentID)
+                      .doc(doc.id)
                       .delete();
                   Navigator.of(context).pop();
                 },
@@ -87,16 +87,16 @@ class _BrowseState extends State<Browse> {
   }
 
   void deleteDoc(DocumentSnapshot doc) async {
-    await db.collection('sharebox_db').document(doc.documentID).delete();
+    await db.collection('sharebox_db').doc(doc.id).delete();
   }
 
   ShareBoxTile buildShareBoxTile(DocumentSnapshot doc) {
     ShareBoxItem curr = ShareBoxItem(
-      title: doc.data['title'],
-      description: doc.data['description'],
-      house: doc.data['house'],
-      category: doc.data['category'],
-      imageBase64: doc.data['imageBase64'],
+      title: doc.data()['title'],
+      description: doc.data()['description'],
+      house: doc.data()['house'],
+      category: doc.data()['category'],
+      imageBase64: doc.data()['imageBase64'],
     );
 
     //fetch the wishlist data
@@ -126,8 +126,8 @@ class _BrowseState extends State<Browse> {
 
   void printData() {
     db.collection('sharebox_db').snapshots().listen((data) {
-      data.documents.forEach((doc) {
-        print(doc.data['title']);
+      data.docs.forEach((doc) {
+        print(doc.data()['title']);
       });
     });
   }
@@ -141,7 +141,7 @@ class _BrowseState extends State<Browse> {
               if (snapshot.hasData) {
                 return SingleChildScrollView(
                   child: Column(
-                      children: snapshot.data.documents
+                      children: snapshot.data.docs
                           .map((doc) => buildShareBoxTile(doc))
                           .toList()),
                 );
@@ -163,7 +163,7 @@ class _BrowseState extends State<Browse> {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return Row(
-                    children: snapshot.data.documents
+                    children: snapshot.data.docs
                         .map((doc) => buildShareBoxTile(doc))
                         .toList());
               } else {
@@ -212,7 +212,7 @@ class _BrowseState extends State<Browse> {
   }
 
   Future<QuerySnapshot> getDocumentsAtBoot() async {
-    var docs = await db.collection('sharebox_db').getDocuments();
+    var docs = await db.collection('sharebox_db').get();
     return docs;
   }
 

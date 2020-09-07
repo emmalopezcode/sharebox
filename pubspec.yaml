@@ -42,9 +42,9 @@ dev_dependencies:
   google_fonts: ^1.1.0
   flutter_animation_set: ^0.0.4
   flare_flutter: ^2.0.6
-
-
   cloud_firestore: ^0.14.0+2
+
+
 
 
 # For information on the generic Dart part of this file, see the
