@@ -1,0 +1,9 @@
+update pods
+delete all pod data
+flutter clean
+flutter build ios
+run pod install
+run pod update
+if(FirebaseApp.app() == nil){
+        FirebaseApp.configure()
+    }

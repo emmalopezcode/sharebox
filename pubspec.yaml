@@ -38,8 +38,8 @@ dev_dependencies:
   image_cropper: 1.2.2
   image_picker: 0.6.6+4
   shared_preferences: ^0.5.7+3
-  cloud_firestore: ^0.13.6
   flutter_spinkit: ^4.1.2+1
+  cloud_firestore: ^0.13.6
 
 
 # For information on the generic Dart part of this file, see the
