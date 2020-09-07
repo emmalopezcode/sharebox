@@ -33,7 +33,7 @@ class _ShareBoxTileState extends State<ShareBoxTile> {
 
   Icon icon = Icon(Icons.favorite_border);
   bool isFavorited = false;
-  Firestore db = Firestore.instance;
+  FirebaseFirestore db = FirebaseFirestore.instance;
 
   @override
   void initState() {

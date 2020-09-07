@@ -9,7 +9,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:share_box/services/json_data.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
@@ -40,17 +39,21 @@ class _HomeState extends State<Home> {
   ];
 
   List<BottomNavigationBarItem> navBar = [
-    BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('Home')),
-    BottomNavigationBarItem(icon: Icon(Icons.search), title: Text('Search')),
-    BottomNavigationBarItem(
-        icon: Icon(Icons.cloud_upload), title: Text('Upload')),
-    BottomNavigationBarItem(
-        icon: Icon(Icons.favorite), title: Text('Favorites'))
+    BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+    BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
+    BottomNavigationBarItem(icon: Icon(Icons.cloud_upload), label: 'Upload'),
+    BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Favorites')
   ];
 
   List<Widget> tabs = [Browse(items: items), Search(), Upload(), Wishlist()];
 
-  Firestore db = Firestore.instance;
+  FirebaseFirestore db = FirebaseFirestore.instance;
+
+  @override
+  void initState() {
+    super.initState();
+    
+  }
 
   @override
   Widget build(BuildContext context) {
