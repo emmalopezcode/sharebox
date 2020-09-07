@@ -50,7 +50,7 @@ class _HomeState extends State<Home> {
 
   List<Widget> tabs = [Browse(items: items), Search(), Upload(), Wishlist()];
 
-  Firestore db = Firestore.instance;
+  FirebaseFirestore db = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
