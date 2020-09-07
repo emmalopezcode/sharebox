@@ -20,7 +20,7 @@ class Browse extends StatefulWidget {
 }
 
 class _BrowseState extends State<Browse> {
-  Firestore db = Firestore.instance;
+  FirebaseFirestore db = FirebaseFirestore.instance;
 
   int dbSize;
   Future<ShareBoxItem> featuredFuture;
