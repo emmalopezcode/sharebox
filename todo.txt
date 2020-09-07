@@ -2,27 +2,29 @@
 NEEDS
 --------------------------------
 test on ios
-    - create a developer account with apple, link and try flutter build ios
-make a shitload of practice data
-have a way to take it out of the database
-    -open up a pop up or another page, say "are you sure" (dont take things out if you arent taking it out)
+    - link and try flutter build ios
+    - test the double tap functionality
 implement the share feature
+better icons
 a query as a browse (essentially if they select in brooks you just show them that stuff)
+debug the popping issue
+make the final upload prettier - all around
 
 
 WANTS
 -----------------------------
+if an item is removed remove from favorites
 refactor the shit out of upload.dart 
 clothing and house filters
 clothing filter animation
     -size
 put the size if its clothing into the upload section
+put the isbn if books or something like that, author, version
 search [and theres a lot: algolia, a few ui panels]
 figure out the camera 
 clean up wishlist codebase
 add dark and light mode
     -extract the color info from the shared prefs json info
-highlight house that is publishing the most
 when you remove send me an email??
 slide transition from upload to home
 icon like the gram instead of the nasty sharebox text for app bar

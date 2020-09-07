@@ -8,21 +8,28 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:page_transition/page_transition.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_animation_set/widget/behavior_animations.dart';
+import 'package:flare_flutter/flare_actor.dart';
 
 class ShareBoxTile extends StatefulWidget {
   final ShareBoxItem item;
   final Function onFavoritePressed;
-  ShareBoxTile({this.item, this.onFavoritePressed});
+  final Function onPickUp;
+
+  ShareBoxTile({this.item, this.onFavoritePressed, this.onPickUp});
 
   @override
-  _ShareBoxTileState createState() =>
-      _ShareBoxTileState(item: item, onFavoritePressed: onFavoritePressed);
+  _ShareBoxTileState createState() => _ShareBoxTileState(
+      item: item, onFavoritePressed: onFavoritePressed, onPickUp: onPickUp);
 }
 
 class _ShareBoxTileState extends State<ShareBoxTile> {
   ShareBoxItem item;
   Function onFavoritePressed;
-  _ShareBoxTileState({this.item, this.onFavoritePressed});
+  Function onPickUp;
+  String animation = '';
+  double likeOpacity = 0.0;
+  _ShareBoxTileState({this.item, this.onFavoritePressed, this.onPickUp});
 
   Icon icon = Icon(Icons.favorite_border);
   bool isFavorited = false;
@@ -77,6 +84,14 @@ class _ShareBoxTileState extends State<ShareBoxTile> {
     );
   }
 
+  void like() {
+    setState(() {
+      animation = 'enter heart';
+      likeOpacity = 1.0;
+    });
+    saveJsonData(item);
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -108,12 +123,18 @@ class _ShareBoxTileState extends State<ShareBoxTile> {
                   SizedBox(
                     height: 10,
                   ),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Container(
-                      width: size.width * .95,
-                      height: size.width * .95,
-                      child: ShareBoxItem.imageFromBase64(item.imageBase64),
+                  GestureDetector(
+                    onDoubleTap: () {
+                      print('double tap');
+                      like();
+                    },
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Container(
+                        width: size.width * .95,
+                        height: size.width * .95,
+                        child: ShareBoxItem.imageFromBase64(item.imageBase64),
+                      ),
                     ),
                   ),
                   Row(
@@ -122,7 +143,7 @@ class _ShareBoxTileState extends State<ShareBoxTile> {
                       IconButton(
                         color: pinkPop,
                         icon: Icon(Icons.file_upload),
-                        onPressed: () {},
+                        onPressed: onPickUp,
                       ),
                       IconButton(
                         color: pinkPop,
@@ -133,7 +154,7 @@ class _ShareBoxTileState extends State<ShareBoxTile> {
                     ],
                   ),
                   Container(
-                    width: size.width*.95,
+                    width: size.width * .95,
                     child: Text(
                       '${item.description}',
                       style: TextStyle(color: Colors.white, fontSize: 20),
@@ -153,13 +174,36 @@ class _ShareBoxTileState extends State<ShareBoxTile> {
                       ColoredChunk(text: '${item.category}')
                     ],
                   ),
-                  SizedBox(height: 40,)
+                  SizedBox(
+                    height: 40,
+                  )
                 ],
               ),
             ),
           ),
         ],
       ),
+      Positioned(
+          top: size.height * .2,
+          left: size.width * .5 - 50,
+          child: Opacity(
+            opacity: likeOpacity,
+            child: Container(
+              width: 100,
+              height: 100,
+              child: FlareActor(
+                'assets/like_heart.flr',
+                shouldClip: false,
+                animation: animation,
+                fit: BoxFit.contain,
+                callback: (animation) {
+                  setState(() {
+                    animation = '';
+                  });
+                },
+              ),
+            ),
+          ))
     ]);
   }
 }

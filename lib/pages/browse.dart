@@ -7,8 +7,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:math';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-
 import 'package:share_box/widgets/featured_tile.dart';
+import 'package:share_box/pages/search.dart';
 
 class Browse extends StatefulWidget {
   final List<ShareBoxItem> items;
@@ -30,7 +30,6 @@ class _BrowseState extends State<Browse> {
   @override
   void initState() {
     super.initState();
-    tileScreenOpen = false;
   }
 
   Future<void> changeWishlistState(ShareBoxItem item) async {
@@ -43,6 +42,52 @@ class _BrowseState extends State<Browse> {
         }
       });
     });
+  }
+
+  void deleteDialog(DocumentSnapshot doc) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            backgroundColor: abColor,
+            title: Text(
+              'Are you sure you want to pick up this item?',
+              style: TextStyle(color: Colors.white),
+            ),
+            content: Text(
+              'if you do it will be removed from the Sharebox',
+              style: TextStyle(color: Colors.white),
+            ),
+            actions: <Widget>[
+              FlatButton(
+                color: pinkPop,
+                child: Text(
+                  'Pick Up',
+                  style: TextStyle(color: abColor),
+                ),
+                onPressed: () async {
+                  await db
+                      .collection('sharebox_db')
+                      .document(doc.documentID)
+                      .delete();
+                  Navigator.of(context).pop();
+                },
+              ),
+              FlatButton(
+                color: pinkPop,
+                child: Text(
+                  'Cancel',
+                  style: TextStyle(color: abColor),
+                ),
+                onPressed: Navigator.of(context).pop,
+              ),
+            ],
+          );
+        });
+  }
+
+  void deleteDoc(DocumentSnapshot doc) async {
+    await db.collection('sharebox_db').document(doc.documentID).delete();
   }
 
   ShareBoxTile buildShareBoxTile(DocumentSnapshot doc) {
@@ -71,19 +116,31 @@ class _BrowseState extends State<Browse> {
       onFavoritePressed: () async {
         await changeWishlistState(curr);
       },
+      onPickUp: () {
+        deleteDialog(doc);
+        // deleteDoc(doc);
+        Navigator.popAndPushNamed(context, '/temp');
+      },
     );
+  }
+
+  void printData() {
+    db.collection('sharebox_db').snapshots().listen((data) {
+      data.documents.forEach((doc) {
+        print(doc.data['title']);
+      });
+    });
   }
 
   Container buildOneRow(height) {
     return Container(
-      height: height,
-      child: ListView(scrollDirection: Axis.horizontal, children: <Widget>[
-        StreamBuilder<QuerySnapshot>(
+        height: height,
+        child: StreamBuilder<QuerySnapshot>(
             stream: db.collection('sharebox_db').snapshots(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return SingleChildScrollView(
-                                  child: Column(
+                  child: Column(
                       children: snapshot.data.documents
                           .map((doc) => buildShareBoxTile(doc))
                           .toList()),
@@ -91,9 +148,7 @@ class _BrowseState extends State<Browse> {
               } else {
                 return Text('error');
               }
-            })
-      ]),
-    );
+            }));
   }
 
   Container buildOneRowQuery(double height, String query) {
@@ -131,7 +186,6 @@ class _BrowseState extends State<Browse> {
     );
   }
 
-  
   Future<bool> delay() {
     return Future.delayed(Duration(milliseconds: 1000)).then((onValue) => true);
   }
@@ -147,7 +201,10 @@ class _BrowseState extends State<Browse> {
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             color: abColor,
-            child: SpinKitWave(color: pinkPop, size: 50,),
+            child: SpinKitWave(
+              color: pinkPop,
+              size: 50,
+            ),
           );
         }
       },
@@ -159,8 +216,6 @@ class _BrowseState extends State<Browse> {
     return docs;
   }
 
-  
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -168,15 +223,14 @@ class _BrowseState extends State<Browse> {
       fit: StackFit.loose,
       children: <Widget>[
         Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [abColor, gradientEnd],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [abColor, gradientEnd],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
             ),
-          ),
-          child: buildOneRow(size.height)
-        ),
+            child: buildOneRow(size.height)),
       ],
     );
   }

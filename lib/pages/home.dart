@@ -63,7 +63,6 @@ class _HomeState extends State<Home> {
         elevation: 0,
       ),
       body: tabs[_currentIndex],
-      floatingActionButton: FloatingActionButton(onPressed: (){pinkPop=Colors.red;},),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         items: navBar,
