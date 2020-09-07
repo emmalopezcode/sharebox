@@ -17,7 +17,7 @@ class _WishlistState extends State<Wishlist> {
   List<dynamic> currentEntries = [];
   List<dynamic> leftEntries = [];
   List<dynamic> rightEntries = [];
-  Firestore db = Firestore.instance;
+  FirebaseFirestore db = FirebaseFirestore.instance;
 
   initState() {
     print('wishlist init');

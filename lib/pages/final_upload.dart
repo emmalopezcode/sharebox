@@ -17,7 +17,7 @@ class FinalUpload extends StatefulWidget {
 class _FinalUploadState extends State<FinalUpload> {
   ShareBoxItem item;
   _FinalUploadState(this.item);
-  Firestore db = Firestore.instance;
+  FirebaseFirestore db = FirebaseFirestore.instance;
   String isComplete = 'Ready to Upload?';
   Widget loading = SizedBox(height: 10);
   Function buttonAction;
