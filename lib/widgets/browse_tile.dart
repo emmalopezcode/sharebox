@@ -82,46 +82,84 @@ class _ShareBoxTileState extends State<ShareBoxTile> {
     Size size = MediaQuery.of(context).size;
 
     return Stack(children: <Widget>[
-      Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Container(
-          height: size.height*.8,
-          width: size.width,
-
-          child: GestureDetector(
-            onTap: () {
-              
-                  
-            },
-            child: Column(
-              children: <Widget>[
-                Text(
-                  '${item.title}',
-                  style: TextStyle(color: Colors.white),
-                ),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Container(
-                    width: size.width * .85,
-                    height: size.width * .85,
-                    child: ShareBoxItem.imageFromBase64(item.imageBase64),
+      Row(
+        children: [
+          Container(
+            width: size.width,
+            child: GestureDetector(
+              onTap: () {},
+              child: Column(
+                children: <Widget>[
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: size.width * .025,
+                      ),
+                      Text(
+                        '${item.title}',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontFamily: 'Courier',
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ],
                   ),
-                ),
-                
-                          Row(
-                            children: [
-                              buildFavoriteButton(),
-                              Spacer(),
-                            ],
-                          ),
-
-              ],
+                  SizedBox(
+                    height: 10,
+                  ),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Container(
+                      width: size.width * .95,
+                      height: size.width * .95,
+                      child: ShareBoxItem.imageFromBase64(item.imageBase64),
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      buildFavoriteButton(),
+                      IconButton(
+                        color: pinkPop,
+                        icon: Icon(Icons.file_upload),
+                        onPressed: () {},
+                      ),
+                      IconButton(
+                        color: pinkPop,
+                        icon: Icon(Icons.share),
+                        onPressed: () {},
+                      ),
+                      Spacer(),
+                    ],
+                  ),
+                  Container(
+                    width: size.width*.95,
+                    child: Text(
+                      '${item.description}',
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                      textAlign: TextAlign.justify,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      ColoredChunk(text: '${item.house}'),
+                      SizedBox(
+                        width: 15,
+                      ),
+                      ColoredChunk(text: '${item.category}')
+                    ],
+                  ),
+                  SizedBox(height: 40,)
+                ],
+              ),
             ),
           ),
-        ),
+        ],
       ),
-      
     ]);
   }
 }
-

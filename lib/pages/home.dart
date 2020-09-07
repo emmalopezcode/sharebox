@@ -7,6 +7,8 @@ import 'package:share_box/pages/upload.dart';
 import 'package:share_box/pages/browse.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:share_box/services/json_data.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 
 class Home extends StatefulWidget {
   @override
@@ -56,11 +58,12 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: abColor,
-        title: Text('Sharebox'),
+        title: Text('Sharebox', style: GoogleFonts.lobster(fontSize: 30)),
         centerTitle: true,
         elevation: 0,
       ),
       body: tabs[_currentIndex],
+      floatingActionButton: FloatingActionButton(onPressed: (){pinkPop=Colors.red;},),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         items: navBar,

@@ -39,7 +39,8 @@ dev_dependencies:
   image_picker: 0.6.6+4
   shared_preferences: ^0.5.7+3
   flutter_spinkit: ^4.1.2+1
-  cloud_firestore: ^0.13.6
+  google_fonts: ^1.1.0
+  cloud_firestore: ^0.14.0+2
 
 
 # For information on the generic Dart part of this file, see the

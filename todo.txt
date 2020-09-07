@@ -1,24 +1,14 @@
-CONSIER THE FOLLOWING
-------------------------------
-discuss with emily
-    -full screen pages (like the gram)
-    -with time stamps that show the most recent first
-problems this would solve
-    -expectation of algolia
-    -tile screen problems
-    -load screen problem
-
 
 NEEDS
 --------------------------------
 test on ios
-    -set up firebase
-    -start from scratch on a basic test project to see where it falls apart
-add slide animation to all of the upload screens
-add fade animation from the load page to the home page
+    - create a developer account with apple, link and try flutter build ios
 make a shitload of practice data
-fix the like on tile screen problem
 have a way to take it out of the database
+    -open up a pop up or another page, say "are you sure" (dont take things out if you arent taking it out)
+implement the share feature
+a query as a browse (essentially if they select in brooks you just show them that stuff)
+
 
 WANTS
 -----------------------------
@@ -28,11 +18,11 @@ clothing filter animation
     -size
 put the size if its clothing into the upload section
 search [and theres a lot: algolia, a few ui panels]
-change featured to being a cloud function thats chosen every 24 hours
 figure out the camera 
 clean up wishlist codebase
 add dark and light mode
+    -extract the color info from the shared prefs json info
 highlight house that is publishing the most
 when you remove send me an email??
-a row in browse that takes you to a page that is all from a house
 slide transition from upload to home
+icon like the gram instead of the nasty sharebox text for app bar

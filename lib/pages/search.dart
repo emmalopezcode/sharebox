@@ -10,7 +10,7 @@ class Search extends StatefulWidget {
 
 class _SearchState extends State<Search> {
   TextEditingController controller;
-  Firestore db = Firestore.instance;
+  FirebaseFirestore db = FirebaseFirestore.instance;
   String test = 'im allergic to you';
   int localSize;
 
@@ -18,10 +18,10 @@ class _SearchState extends State<Search> {
   void initState() {
     super.initState();
     print('init state called');
-    db.collection('sharebox_db').getDocuments().then((docs) {
-      print('size is ${docs.documents.length}');
+    db.collection('sharebox_db').get().then((docs) {
+      print('size is ${docs.docs.length}');
       setState(() {
-        localSize = docs.documents.length;
+        localSize = docs.docs.length;
       });
     });
     print('localSize is $localSize');
@@ -31,8 +31,8 @@ class _SearchState extends State<Search> {
   int currSize() {
     int result = 0;
     db.collection('sharebox_db').snapshots().listen((data) {
-      data.documents.forEach((item) {
-        print(item['title']);
+      data.docs.forEach((item) {
+        print(item);
         result++;
         print(result);
         //result++;
