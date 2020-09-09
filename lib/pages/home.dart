@@ -39,10 +39,10 @@ class _HomeState extends State<Home> {
   ];
 
   List<BottomNavigationBarItem> navBar = [
-    BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-    BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
-    BottomNavigationBarItem(icon: Icon(Icons.cloud_upload), label: 'Upload'),
-    BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Favorites')
+    BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('Home')),
+    BottomNavigationBarItem(icon: Icon(Icons.search), title: Text('Search')),
+    BottomNavigationBarItem(icon: Icon(Icons.cloud_upload), title: Text('Upload')),
+    BottomNavigationBarItem(icon: Icon(Icons.favorite), title: Text('Favorites'))
   ];
 
   List<Widget> tabs = [Browse(items: items), Search(), Upload(), Wishlist()];

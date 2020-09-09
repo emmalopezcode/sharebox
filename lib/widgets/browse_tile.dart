@@ -1,4 +1,8 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:share_box/classes/sharebox_item.dart';
 import 'package:share_box/misc/data.dart';
 import 'package:share_box/pages/tile_screen.dart';
@@ -10,6 +14,8 @@ import 'package:page_transition/page_transition.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_animation_set/widget/behavior_animations.dart';
 import 'package:flare_flutter/flare_actor.dart';
+import 'package:esys_flutter_share/esys_flutter_share.dart';
+import 'dart:ui';
 
 class ShareBoxTile extends StatefulWidget {
   final ShareBoxItem item;
@@ -142,13 +148,20 @@ class _ShareBoxTileState extends State<ShareBoxTile> {
                       buildFavoriteButton(),
                       IconButton(
                         color: pinkPop,
-                        icon: Icon(Icons.file_upload),
+                        icon: Icon(Icons.archive),
                         onPressed: onPickUp,
                       ),
                       IconButton(
                         color: pinkPop,
-                        icon: Icon(Icons.share),
-                        onPressed: () {},
+                        icon: Icon(Icons.send),
+                        onPressed: () async {
+                          Base64Decoder decoder = Base64Decoder();
+                          final Uint8List buff =
+                              decoder.convert(item.imageBase64);
+                          Share.file('{$item.title}', '{$item.title}.png', buff,
+                              'image/png',
+                              text: 'hello world');
+                        },
                       ),
                       Spacer(),
                     ],

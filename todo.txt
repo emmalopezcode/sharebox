@@ -2,10 +2,10 @@
 NEEDS
 --------------------------------
 test on ios
-    - link and try flutter build ios
+    - lost connection to device w camera
+        - add just the image picker to the test file and see where it fails
     - test the double tap functionality
-implement the share feature
-better icons
+    - test share
 a query as a browse (essentially if they select in brooks you just show them that stuff)
 debug the popping issue
 make the final upload prettier - all around
