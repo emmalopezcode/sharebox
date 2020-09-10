@@ -25,11 +25,17 @@ class _BrowseState extends State<Browse> {
   int dbSize;
   Future<ShareBoxItem> featuredFuture;
   Future<QuerySnapshot> documentsAtBoot;
+  Widget main;
+  String chosenQuery;
+
   bool tileScreenOpen;
 
   @override
   void initState() {
     super.initState();
+
+    // Size size = MediaQuery.of(context).size;
+    // main = buildLabelText(size, 'test');
   }
 
   Future<void> changeWishlistState(ShareBoxItem item) async {
@@ -66,10 +72,7 @@ class _BrowseState extends State<Browse> {
                   style: TextStyle(color: abColor),
                 ),
                 onPressed: () async {
-                  await db
-                      .collection('sharebox_db')
-                      .doc(doc.id)
-                      .delete();
+                  await db.collection('sharebox_db').doc(doc.id).delete();
                   Navigator.of(context).pop();
                 },
               ),
@@ -158,14 +161,16 @@ class _BrowseState extends State<Browse> {
         StreamBuilder<QuerySnapshot>(
             stream: db
                 .collection('sharebox_db')
-                .where('title', isEqualTo: query)
+                .where('house', isEqualTo: query)
                 .snapshots(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return Row(
-                    children: snapshot.data.docs
-                        .map((doc) => buildShareBoxTile(doc))
-                        .toList());
+                return SingleChildScrollView(
+                  child: Column(
+                      children: snapshot.data.docs
+                          .map((doc) => buildShareBoxTile(doc))
+                          .toList()),
+                );
               } else {
                 return Text('error');
               }
@@ -186,39 +191,25 @@ class _BrowseState extends State<Browse> {
     );
   }
 
-  Future<bool> delay() {
-    return Future.delayed(Duration(milliseconds: 1000)).then((onValue) => true);
-  }
-
-  FutureBuilder buildAnimation() {
-    return FutureBuilder(
-      future: delay(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return Container();
-        } else {
-          return Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            color: abColor,
-            child: SpinKitWave(
-              color: pinkPop,
-              size: 50,
-            ),
-          );
-        }
-      },
-    );
-  }
-
   Future<QuerySnapshot> getDocumentsAtBoot() async {
     var docs = await db.collection('sharebox_db').get();
     return docs;
   }
 
+  void changeQuery() {
+    setState(() {
+      chosenQuery = 'Howard';
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    if (chosenQuery == null) {
+      main = buildOneRow(size.height);
+    } else {
+      main = buildOneRowQuery(size.height, chosenQuery);
+    }
     return Stack(
       fit: StackFit.loose,
       children: <Widget>[
@@ -230,7 +221,15 @@ class _BrowseState extends State<Browse> {
                 end: Alignment.bottomCenter,
               ),
             ),
-            child: buildOneRow(size.height)),
+            child: main),
+        Positioned(
+            bottom: 20,
+            left: size.width -100,
+            child: FloatingActionButton(
+              backgroundColor: pinkPop,
+              onPressed: changeQuery,
+              child: Icon(Icons.tune),
+        ))
       ],
     );
   }

@@ -109,3 +109,30 @@
           );
         });
   }
+
+  Future<bool> delay() {
+    return Future.delayed(Duration(milliseconds: 1000)).then((onValue) => true);
+  }
+
+  
+
+  FutureBuilder buildAnimation() {
+    return FutureBuilder(
+      future: delay(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return Container();
+        } else {
+          return Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            color: abColor,
+            child: SpinKitWave(
+              color: pinkPop,
+              size: 50,
+            ),
+          );
+        }
+      },
+    );
+  }

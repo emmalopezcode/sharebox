@@ -1,3 +1,5 @@
+Getting it to open clean on xcode and run on ios
+
 update pods
 delete all pod data
 flutter clean
@@ -7,3 +9,19 @@ run pod update
 if(FirebaseApp.app() == nil){
         FirebaseApp.configure()
     }
+
+podfile.lock is not in sync error // the vm is taking longer than expected
+pod deintegrate  
+pod install
+
+making image picker work (in progress)
+add to pubspec 
+upgrade packages
+import file
+keys to info.plist
+    - NSPhotoLibraryDescription
+    - NSCameraUsageDescription
+    - NSMicrophoneUsageDescription
+changed to image_picker_modern
+changed a little bit of syntax
+removed other image_picker

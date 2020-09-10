@@ -4,6 +4,7 @@ NEEDS
 test on ios
     - lost connection to device w camera
         - add just the image picker to the test file and see where it fails
+    - duplicate plugin key FLTImagePickerPlugin
     - test the double tap functionality
     - test share
 a query as a browse (essentially if they select in brooks you just show them that stuff)
