@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:share_box/classes/sharebox_item.dart';
 import 'package:share_box/misc/data.dart';
 import 'package:share_box/services/json_data.dart';
@@ -9,6 +10,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'package:share_box/widgets/featured_tile.dart';
 import 'package:share_box/pages/search.dart';
+import 'package:share_box/misc/query_dialog.dart';
 
 class Browse extends StatefulWidget {
   final List<ShareBoxItem> items;
@@ -26,10 +28,19 @@ class _BrowseState extends State<Browse> {
   Future<ShareBoxItem> featuredFuture;
   Future<QuerySnapshot> documentsAtBoot;
   Widget main;
-  String chosenQuery;
-
+  String chosenQuery = 'All';
+  String houseDDV = 'All';
   bool tileScreenOpen;
-
+  List<String> houses = [
+    'Rackham Court',
+    'Brooks/Buck',
+    'Joe McNabb',
+    'Anderson',
+    'Sylvester',
+    'Howard',
+    'Lowrey',
+    'All'
+  ];
   @override
   void initState() {
     super.initState();
@@ -51,6 +62,7 @@ class _BrowseState extends State<Browse> {
   }
 
   void deleteDialog(DocumentSnapshot doc) {
+    print('delete dialog called?');
     showDialog(
         context: context,
         builder: (context) {
@@ -73,7 +85,9 @@ class _BrowseState extends State<Browse> {
                 ),
                 onPressed: () async {
                   await db.collection('sharebox_db').doc(doc.id).delete();
-                  Navigator.of(context).pop();
+                  Navigator.popAndPushNamed(context, '/temp');
+
+                  // Navigator.of(context).pop();
                 },
               ),
               FlatButton(
@@ -87,6 +101,7 @@ class _BrowseState extends State<Browse> {
             ],
           );
         });
+    print('dialog shown');
   }
 
   void deleteDoc(DocumentSnapshot doc) async {
@@ -121,8 +136,6 @@ class _BrowseState extends State<Browse> {
       },
       onPickUp: () {
         deleteDialog(doc);
-        // deleteDoc(doc);
-        Navigator.popAndPushNamed(context, '/temp');
       },
     );
   }
@@ -149,66 +162,115 @@ class _BrowseState extends State<Browse> {
                           .toList()),
                 );
               } else {
-                return Text('error');
+                return Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+                  color: abColor,
+                  child: SpinKitWave(
+                    color: pinkPop,
+                    size: 50,
+                  ),
+                );
               }
             }));
   }
 
-  Container buildOneRowQuery(double height, String query) {
+  Container buildOneRowQuery(Size size, String query) {
     return Container(
-      height: height,
+      height: size.height,
       child: ListView(scrollDirection: Axis.horizontal, children: <Widget>[
         StreamBuilder<QuerySnapshot>(
             stream: db
                 .collection('sharebox_db')
-                .where('house', isEqualTo: query)
+                .where('house', isEqualTo: chosenQuery)
                 .snapshots(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return SingleChildScrollView(
-                  child: Column(
-                      children: snapshot.data.docs
-                          .map((doc) => buildShareBoxTile(doc))
-                          .toList()),
-                );
+                if (snapshot.data.docs.length > 0) {
+                  return SingleChildScrollView(
+                    child: Column(
+                        children: snapshot.data.docs
+                            .map((doc) => buildShareBoxTile(doc))
+                            .toList()),
+                  );
+                } else {
+                  return Column(
+                    children: [
+                      SizedBox(
+                        height: size.height * .4,
+                      ),
+                      Container(
+                        width: size.width,
+                        child: Text(
+                          'Looks like $chosenQuery does not have any uploads yet.',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: Colors.white, fontSize: 30),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      FlatButton(
+                        color: pinkPop,
+                        child: Text(
+                          'Return to Browse',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            chosenQuery = 'All';
+                          });
+                        },
+                      )
+                    ],
+                  );
+                }
               } else {
-                return Text('error');
+                return Center(
+                    child: Text(
+                  'Loading...',
+                  style: TextStyle(color: Colors.white),
+                ));
               }
             })
       ]),
     );
   }
 
-  Container buildLabelText(Size size, String text) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10),
-      width: size.width,
-      child: Text(
-        text,
-        style: TextStyle(color: pinkPop, fontSize: 20),
-        textAlign: TextAlign.left,
-      ),
-    );
-  }
-
-  Future<QuerySnapshot> getDocumentsAtBoot() async {
-    var docs = await db.collection('sharebox_db').get();
-    return docs;
-  }
-
-  void changeQuery() {
+  void queryOk() {
     setState(() {
-      chosenQuery = 'Howard';
+      chosenQuery = houseDDV;
     });
+    Navigator.pop(context);
+  }
+
+  void querySelect(String newValue) {
+    setState(() {
+      houseDDV = newValue;
+    });
+  }
+
+  void changeQuery(height) {
+    print(height);
+    showDialog(
+        context: context,
+        builder: (context) {
+          return QueryDialog(
+              height: height,
+              houseDDV: houseDDV,
+              houses: houses,
+              querySelect: querySelect,
+              queryOk: queryOk);
+        });
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    if (chosenQuery == null) {
+    if (chosenQuery == 'All') {
       main = buildOneRow(size.height);
     } else {
-      main = buildOneRowQuery(size.height, chosenQuery);
+      main = buildOneRowQuery(size, chosenQuery);
     }
     return Stack(
       fit: StackFit.loose,
@@ -224,12 +286,14 @@ class _BrowseState extends State<Browse> {
             child: main),
         Positioned(
             bottom: 20,
-            left: size.width -100,
+            left: size.width - 100,
             child: FloatingActionButton(
               backgroundColor: pinkPop,
-              onPressed: changeQuery,
+              onPressed: () {
+                changeQuery(size.height);
+              },
               child: Icon(Icons.tune),
-        ))
+            ))
       ],
     );
   }

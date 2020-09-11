@@ -7,13 +7,19 @@ test on ios
     - duplicate plugin key FLTImagePickerPlugin
     - test the double tap functionality
     - test share
-a query as a browse (essentially if they select in brooks you just show them that stuff)
 debug the popping issue
-make the final upload prettier - all around
-
+fix upload
+ - when you would usually click on the page that takes you to upload
+    - its a single page for selecting the picture
+    - then that page pushes the image to the next page
+    - check if you like it if not route back 
+    - then pushes to text details then to final upload
+fonts
 
 WANTS
 -----------------------------
+shrink browse to like 150 lines
+like a lot of documentation
 if an item is removed remove from favorites
 refactor the shit out of upload.dart 
 clothing and house filters

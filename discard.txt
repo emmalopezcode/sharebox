@@ -136,3 +136,20 @@
       },
     );
   }
+
+  Container buildLabelText(Size size, String text) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 10),
+      width: size.width,
+      child: Text(
+        text,
+        style: TextStyle(color: pinkPop, fontSize: 20),
+        textAlign: TextAlign.left,
+      ),
+    );
+  }
+
+  Future<QuerySnapshot> getDocumentsAtBoot() async {
+    var docs = await db.collection('sharebox_db').get();
+    return docs;
+  }

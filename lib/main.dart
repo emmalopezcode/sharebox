@@ -7,7 +7,7 @@ import 'package:share_box/pages/upload.dart';
 import 'package:share_box/pages/text_details.dart';
 import 'package:share_box/pages/temp.dart';
 import 'package:firebase_core/firebase_core.dart';
-
+import 'package:share_box/pages/final_upload.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -24,5 +24,7 @@ MaterialApp app = MaterialApp(
     '/wishlist': (context) => Wishlist(),
     '/text_details': (context) => TextDetails(),
     '/temp': (context) => Temp(),
+    //'/final_upload':(context) => FinalUpload()
+
   },
 );

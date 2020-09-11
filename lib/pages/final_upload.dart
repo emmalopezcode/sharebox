@@ -118,17 +118,17 @@ class _FinalUploadState extends State<FinalUpload> {
                   ClipRRect(
                       borderRadius: BorderRadius.circular(13),
                       child: Container(
-                          padding: EdgeInsets.all(6),
-                          color: Colors.white,
+                          padding: EdgeInsets.all(8),
+                          color: pinkPop,
                           child: Text('${item.house}',
-                              style: TextStyle(color: abColor)))),
+                              style: TextStyle(color: Colors.white)))),
                   ClipRRect(
                     borderRadius: BorderRadius.circular(13),
                     child: Container(
-                      padding: EdgeInsets.all(6),
-                      color: Colors.white,
+                      padding: EdgeInsets.all(8),
+                      color: pinkPop,
                       child: Text('${item.category}',
-                          style: TextStyle(color: abColor)),
+                          style: TextStyle(color: Colors.white)),
                     ),
                   ),
                 ],
@@ -159,7 +159,7 @@ class _FinalUploadState extends State<FinalUpload> {
                       style: TextStyle(color: Colors.white),
                     ),
                     onPressed: () {
-                      Navigator.of(context).pop();
+                      Navigator.of(context).popAndPushNamed('/upload');
                     },
                   ),
                   FlatButton.icon(

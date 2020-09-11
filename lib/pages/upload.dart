@@ -45,6 +45,7 @@ class _UploadState extends State<Upload> {
 
   Future<void> sendImage(File image) async {
     print('send image called');
+    
     dynamic result = await Navigator.push(context,
         MaterialPageRoute(builder: (context) => TextDetails(imageFile: image)));
     setState(() {
