@@ -3,12 +3,12 @@ import 'package:share_box/classes/sharebox_item.dart';
 import 'package:share_box/misc/data.dart';
 import 'package:share_box/pages/search.dart';
 import 'package:share_box/pages/wishlist.dart';
-import 'package:share_box/pages/upload.dart';
+import 'file:///C:/Users/emmal/code/flutter_projects/share_box/waste/upload.dart';
 import 'package:share_box/pages/browse.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:share_box/services/json_data.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:share_box/pages/upload/choose_pic.dart';
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
@@ -40,12 +40,11 @@ class _HomeState extends State<Home> {
 
   List<BottomNavigationBarItem> navBar = [
     BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('Home')),
-    BottomNavigationBarItem(icon: Icon(Icons.search), title: Text('Search')),
     BottomNavigationBarItem(icon: Icon(Icons.cloud_upload), title: Text('Upload')),
     BottomNavigationBarItem(icon: Icon(Icons.favorite), title: Text('Favorites'))
   ];
 
-  List<Widget> tabs = [Browse(items: items), Search(), Upload(), Wishlist()];
+  List<Widget> tabs = [Browse(items: items), ChoosePicture(), Wishlist()];
 
   FirebaseFirestore db = FirebaseFirestore.instance;
 

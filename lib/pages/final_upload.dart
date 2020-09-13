@@ -21,15 +21,18 @@ class _FinalUploadState extends State<FinalUpload> {
   String isComplete = 'Ready to Upload?';
   Widget loading = SizedBox(height: 10);
   Function buttonAction;
-  Icon buttonIcon = Icon(Icons.cloud_upload, color: Colors.white,);
-
+  Icon buttonIcon = Icon(
+    Icons.cloud_upload,
+    color: Colors.white,
+  );
+  bool hasUploaded = false;
+  Widget backButton;
   String buttonText = 'upload';
 
-  void initState(){
+  void initState() {
     super.initState();
     buttonAction = upload;
   }
-
 
   void upload() async {
     setState(() {
@@ -50,15 +53,17 @@ class _FinalUploadState extends State<FinalUpload> {
       isComplete = 'Upload Complete! Return to Home?';
       loading = SizedBox(height: 10);
       buttonAction = returnHome;
-      buttonIcon = Icon(Icons.home, color: Colors.white,);
+      buttonIcon = Icon(
+        Icons.home,
+        color: Colors.white,
+      );
       buttonText = 'Home';
-
+      hasUploaded = true;
     });
   }
 
-  void returnHome(){
-      Navigator.of(context).popAndPushNamed('/home');
-
+  void returnHome() {
+    Navigator.of(context).popAndPushNamed('/home');
   }
 
   @override
@@ -145,23 +150,25 @@ class _FinalUploadState extends State<FinalUpload> {
                 height: size.height * .03,
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: (hasUploaded == true)?MainAxisAlignment.center:MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  FlatButton.icon(
-                    icon: Icon(
-                      Icons.arrow_back_ios,
-                      color: Colors.white,
-                      size: 15,
-                    ),
-                    color: pinkPop,
-                    label: Text(
-                      'back',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    onPressed: () {
-                      Navigator.of(context).popAndPushNamed('/upload');
-                    },
-                  ),
+                  backButton = (hasUploaded == true)
+                      ? Container()
+                      : FlatButton.icon(
+                          icon: Icon(
+                            Icons.arrow_back_ios,
+                            color: Colors.white,
+                            size: 15,
+                          ),
+                          color: pinkPop,
+                          label: Text(
+                            'back',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
                   FlatButton.icon(
                     icon: buttonIcon,
                     color: pinkPop,
@@ -179,7 +186,6 @@ class _FinalUploadState extends State<FinalUpload> {
               SizedBox(
                 height: size.height * .03,
               ),
-              
             ],
           ),
         ],

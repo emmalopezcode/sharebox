@@ -2,26 +2,16 @@
 NEEDS
 --------------------------------
 test on ios
-    - lost connection to device w camera
-        - add just the image picker to the test file and see where it fails
-    - duplicate plugin key FLTImagePickerPlugin
-    - test the double tap functionality
     - test share
-debug the popping issue
-fix upload
- - when you would usually click on the page that takes you to upload
-    - its a single page for selecting the picture
-    - then that page pushes the image to the next page
-    - check if you like it if not route back 
-    - then pushes to text details then to final upload
-fonts
+fix issue with the keyboard popup
+fonts, final tuning
+
 
 WANTS
 -----------------------------
 shrink browse to like 150 lines
 like a lot of documentation
 if an item is removed remove from favorites
-refactor the shit out of upload.dart 
 clothing and house filters
 clothing filter animation
     -size
@@ -34,4 +24,3 @@ add dark and light mode
     -extract the color info from the shared prefs json info
 when you remove send me an email??
 slide transition from upload to home
-icon like the gram instead of the nasty sharebox text for app bar

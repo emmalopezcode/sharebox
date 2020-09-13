@@ -94,8 +94,10 @@ class _TextDetailsState extends State<TextDetails> {
         centerTitle: true,
       ),
       bottomNavigationBar: BottomAppBar(
-        color: gradientEnd,
+        color: abColor,
         child: Container(height: 60),
+        elevation: 0,
+        notchMargin: 0,
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -282,21 +284,35 @@ class _TextDetailsState extends State<TextDetails> {
             SizedBox(
               height: 15,
             ),
-            
             SizedBox(
               height: 15,
             ),
-            FlatButton.icon(
-              icon: Icon(
-                Icons.arrow_forward_ios,
-                color: Colors.white,
+            Container(
+              width: MediaQuery.of(context).size.width*.8,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  FlatButton(
+                    color: pinkPop,
+                    child: Text('back', style: TextStyle(color: Colors.white),),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  FlatButton.icon(
+                    icon: Icon(
+                      Icons.arrow_forward_ios,
+                      color: Colors.white,
+                    ),
+                    color: pinkPop,
+                    label: Text(
+                      'next',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    onPressed: checkDetails,
+                  ),
+                ],
               ),
-              color: pinkPop,
-              label: Text(
-                'next',
-                style: TextStyle(color: Colors.white),
-              ),
-              onPressed: checkDetails,
             )
           ],
         ),
